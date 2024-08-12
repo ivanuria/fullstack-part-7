@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import {
+  Routes,
+  Route,
+  useMatch
+} from 'react-router-dom'
 //Components
 import Header from './components/layout/Header'
 import Main from './components/layout/Main'
@@ -9,6 +13,7 @@ import Footer from './components/Footer'
 import About from './components/Views/About'
 import AnecdoteList from './components/Views/Anecdotes'
 import NewAnecdote from './components/Views/NewAnecdote'
+import Anecdote from './components/Views/Anecdote'
 //Styles
 import './styles/main.css'
 
@@ -56,7 +61,7 @@ const App = () => {
   ]
 
   const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+    anecdotes.find(a => a.id.toString() === id.toString())
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -68,6 +73,11 @@ const App = () => {
 
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
+
+  const matchAnecdote = useMatch('/anecdotes/:id')
+  const anecdote = matchAnecdote
+    ? anecdoteById(matchAnecdote.params.id)
+    : null
 
   return (
     <>
@@ -82,6 +92,7 @@ const App = () => {
               route => <Route key={route.to} path={ route.to } element={ route.element } />
             )
           }
+          <Route path='/anecdotes/:id' element={<Anecdote anecdote={ anecdote } />} />
         </Routes>
       </Main>
     <Footer style={ { fontSize: '.8rem' } } />
