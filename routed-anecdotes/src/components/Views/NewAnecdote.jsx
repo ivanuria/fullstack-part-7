@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import propTypes from 'prop-types'
 // Components
 import Form from '../form/Form'
 import Input from '../form/Input'
@@ -30,6 +31,10 @@ const NewAnecdote = (props) => {
       </Form>
     </>
   )
+}
+
+NewAnecdote.propTypes = {
+  addNew: propTypes.func.isRequired
 }
 
 export default NewAnecdote

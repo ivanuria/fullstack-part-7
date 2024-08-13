@@ -1,4 +1,6 @@
-const AnecdoteList = ({ anecdotes }) => (
+import propTypes from 'prop-types'
+
+const AnecdoteList = ({ anecdotes=[] }) => (
   <>
     <h2>Anecdotes</h2>
     <ul>
@@ -12,5 +14,9 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>
   </>
 )
+
+AnecdoteList.propTypes = {
+  anecdotes: propTypes.array
+}
 
 export default AnecdoteList

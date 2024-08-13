@@ -1,3 +1,5 @@
+import propTypes from 'prop-types'
+
 const FormRow = ({ children, style={}, ...props }) => {
   const defaultStyle = {
     gridColumn: 'span 2',
@@ -9,12 +11,15 @@ const FormRow = ({ children, style={}, ...props }) => {
   if (children.filter(child => child).length === 2) {
     defaultStyle.display = 'grid'
     defaultStyle.gridTemplateColumns = 'subgrid'
-  } else {
-
   }
   return (
     <div style={ defaultStyle } { ...props }>{ children }</div>
   )
+}
+
+FormRow.propTypes = {
+  children: propTypes.array.isRequired,
+  style: propTypes.object
 }
 
 export default FormRow

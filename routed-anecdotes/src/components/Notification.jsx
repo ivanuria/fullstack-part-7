@@ -1,3 +1,5 @@
+import propTypes from 'prop-types'
+
 const Notification = ({ notification }) => {
   const style = {
     padding: '.5rem 1rem',
@@ -13,6 +15,10 @@ const Notification = ({ notification }) => {
       { notification }
     </div>
   )
+}
+
+Notification.propTypes = {
+  notification: propTypes.string
 }
 
 export default Notification

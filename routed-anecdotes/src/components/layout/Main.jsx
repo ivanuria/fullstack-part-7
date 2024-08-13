@@ -1,4 +1,5 @@
 import Container from "./Container"
+import propTypes from 'prop-types'
 
 const Main = ({ children, ...props }) => {
   return (
@@ -8,6 +9,10 @@ const Main = ({ children, ...props }) => {
       </Container>
     </main>
   )
+}
+
+Main.propTypes = {
+  children: propTypes.any.isRequired
 }
 
 export default Main

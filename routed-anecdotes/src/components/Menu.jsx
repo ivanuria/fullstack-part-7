@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom'
+import propTypes from 'prop-types'
 
 export const MenuLink = ({ children, to, className, ...props }) => (
   <li className={ className } { ...props }>
     <Link className={ `${className}-link` } to={ to }>{ children }</Link>
   </li>
 )
+
+MenuLink.propTypes = {
+  children: propTypes.string.isRequired,
+  to: propTypes.string.isRequired,
+  className: propTypes.string
+}
 
 const Menu = ({ menuItems=[], className='main-menu', ...props }) => {
   const menuStyle = {
@@ -25,6 +32,11 @@ const Menu = ({ menuItems=[], className='main-menu', ...props }) => {
       </menu>
     </nav>
   )
+}
+
+Menu.propTypes = {
+  menuItems: propTypes.array,
+  className: propTypes.string
 }
 
 export default Menu

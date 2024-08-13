@@ -1,4 +1,5 @@
 import Container from "./Container"
+import propTypes from 'prop-types'
 
 const Footer = ({ children, ...props }) => {
   return (
@@ -8,6 +9,10 @@ const Footer = ({ children, ...props }) => {
       </Container>
     </footer>
   )
+}
+
+Footer.propTypes = {
+  children: propTypes.any.isRequired
 }
 
 export default Footer

@@ -1,6 +1,8 @@
 import FooterLayout from './layout/Footer'
+import propTypes from 'prop-types'
 
-const Footer = ({ children, ...props }) => {
+const Footer = ({ ...props }) => {
+  delete props.children
   return (
     <FooterLayout { ...props }>
       Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
@@ -8,6 +10,10 @@ const Footer = ({ children, ...props }) => {
       See <a href='https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2020/routed-anecdotes/blob/master/src/App.js</a> for the source code.
     </FooterLayout>
   )
+}
+
+Footer.propTypes = {
+  children: propTypes.any
 }
 
 export default Footer
