@@ -21,7 +21,7 @@ const NewAnecdote = (props) => {
 
   return (
     <>
-      <h2>create a new anecdote</h2>
+      <h2>Create a new anecdote</h2>
       <Form onSubmit={handleSubmit}>
         <Input name='content' label='Content:' useThisState={() => [content, setContent]} />
         <Input name='author' label='Author:' useThisState={() => [author, setAuthor]} />

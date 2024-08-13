@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Routes,
   Route,
-  useMatch
+  useMatch,
+  useNavigate
 } from 'react-router-dom'
 //Components
 import Header from './components/layout/Header'
 import Main from './components/layout/Main'
 import Menu from './components/Menu'
 import Footer from './components/Footer'
+import Notification from './components/Notification'
 // Views
 import About from './components/Views/About'
 import AnecdoteList from './components/Views/Anecdotes'
@@ -18,6 +20,7 @@ import Anecdote from './components/Views/Anecdote'
 import './styles/main.css'
 
 const App = () => {
+  const navigate = useNavigate()
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -37,9 +40,15 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
+  useEffect(() => {
+    setTimeout(() => setNotification(''), 5000)
+  }, [notification])
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    navigate('/')
+    setNotification(`New Anecdote '${anecdote.content}' created`)
   }
 
   const routes = [
@@ -85,6 +94,7 @@ const App = () => {
       <Menu menuItems={routes} />
     </Header>
     <Main>
+        <Notification notification={ notification } />
         <h1>Software anecdotes</h1>
         <Routes>
           {
