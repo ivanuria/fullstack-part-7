@@ -19,6 +19,7 @@ import Anecdote from './components/Views/Anecdote'
 //Styles
 import './styles/main.css'
 
+
 const App = () => {
   const navigate = useNavigate()
   const [anecdotes, setAnecdotes] = useState([

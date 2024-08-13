@@ -1,14 +1,16 @@
-import { useState } from 'react'
 import FormRow from "./FormRow"
 import Label from "./Label"
 import propTypes from 'prop-types'
+import { useField } from '../../hooks'
 
-const Input = ({ name, label, useThisState=useState, type='text', ...props }) => {
-  const [value, setValue] = useThisState()
+const Input = ({ name, label, useThisState=useField, type='text', ...props }) => {
+  const input = useThisState(type)
+  const inputCopy = {...input}
+  delete inputCopy.setValue
   return (
     <FormRow { ...props } >
       { label && <Label htmlFor={ name }>{ label }</Label> }
-      <input value={ value } onChange={ (event) => setValue(event.target.value) } type={ type } name={ name } id={ name } />
+      <input { ...inputCopy } name={ name } id={ name } />
     </FormRow>
   )
 }
