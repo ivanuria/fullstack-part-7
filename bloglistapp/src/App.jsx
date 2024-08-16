@@ -25,7 +25,7 @@ const App = () => {
       lsUser.expiresAt = new Date(lsUser.expiresAt)
       const now = new Date()
       if (lsUser.expiresAt >= now) {
-        setUser(JSON.parse(lsUser))
+        setUser(lsUser)
       } else {
         window.localStorage.removeItem('bau')
       }
