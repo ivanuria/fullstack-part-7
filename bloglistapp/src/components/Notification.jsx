@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { deleteNotification } from '../reducers/notifications'
 
-const Notification = ({ message, level='info', onClick=() => null }) => {
+const Notification = ({ message, level = 'info', onClick = () => null }) => {
   let style = {
     display: 'none',
     padding: '1rem',
@@ -37,7 +37,12 @@ const Notification = ({ message, level='info', onClick=() => null }) => {
     }
   }
   return (
-    <div className='notification' data-level={level} style={style} onClick={onClick}>
+    <div
+      className='notification'
+      data-level={level}
+      style={style}
+      onClick={onClick}
+    >
       {message}
     </div>
   )
@@ -50,7 +55,11 @@ const Notifications = () => {
   return (
     <div className='notifications'>
       {notifications.map(notification => (
-        <Notification key={notification.id} {...notification} onClick={ () => dispatch(deleteNotification(notification.id)) }/>
+        <Notification
+          key={notification.id}
+          {...notification}
+          onClick={() => dispatch(deleteNotification(notification.id))}
+        />
       ))}
     </div>
   )

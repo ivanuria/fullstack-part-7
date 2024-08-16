@@ -21,7 +21,9 @@ const Login = ({ setUser }) => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      dispatch(setNotification('Invalid username and password', { level: 'error' }))
+      dispatch(
+        setNotification('Invalid username and password', { level: 'error' }),
+      )
     }
   }
 

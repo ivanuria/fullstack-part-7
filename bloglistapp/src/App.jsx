@@ -8,7 +8,7 @@ import Notifications from './components/Notification.jsx'
 import Togglable from './components/Togglable.jsx'
 // Actions
 import { setNotification } from './reducers/notifications.js'
-import { setInitialBlogs, createNewBlog, sortBlogs,  } from './reducers/blogs.js'
+import { setInitialBlogs, createNewBlog } from './reducers/blogs.js'
 
 const initialNotifications = [
   {
@@ -18,11 +18,10 @@ const initialNotifications = [
 
 const App = () => {
   const dispatch = useDispatch()
-  //const [blogs, setBlogs] = useState([])
-  const blogs = useSelector(state => state.blogs)
+  const blogs = [...useSelector(state => state.blogs)]
   const [user, setUser] = useState()
   const newBlogRef = useRef()
-  const sorted = useRef(false)
+  const [sorted, setSorted] = useState()
 
   useEffect(() => {
     let lsUser = window.localStorage.getItem('bau')
@@ -38,7 +37,9 @@ const App = () => {
     }
     for (const notification of initialNotifications) {
       console.log('set')
-      dispatch(setNotification(notification.message, { level: notification.level }))
+      dispatch(
+        setNotification(notification.message, { level: notification.level }),
+      )
     }
   }, [])
 
@@ -58,35 +59,15 @@ const App = () => {
     newBlogRef.current.toggleVisible()
   }
 
-  const handleSortBlogs = toSortBlogs => {
-    dispatch(sortBlogs({
-      sorted,
-      toSortBlogs
-    }))
+  blogs.sort((a, b) => a.likes - b.likes)
+  if (sorted === 'higherFirst') {
+    blogs.reverse()
   }
 
-  const updateBlog = async (id, blog) => {
-    blogService.updateBlog(id, blog)
-    let updatedBlogs = [...blogs]
-    updatedBlogs = updatedBlogs.map(b => (b.id === id ? blog : b))
-    if (sorted.current) {
-      sorted.current =
-        sorted.current === 'lowerFirst' ? 'higherFirst' : 'lowerFirst'
-      handleSortBlogs(updatedBlogs)
-    } else {
-      setBlogs(updatedBlogs)
-    }
+  const handleSortBlogs = () => {
+    setSorted(sorted === 'higherFirst' ? 'lowerFirst' : 'higherFirst')
   }
 
-  const deleteBlog = async id => {
-    const toDelete = blogs.find(blog => blog.id === id)
-    if (
-      window.confirm(`Remove blog '${toDelete.title}' by '${toDelete.author}'`)
-    ) {
-      await blogService.deleteBlog(id, user)
-      setBlogs(blogs.filter(blog => blog.id !== id))
-    }
-  }
   const checkLogin = () => {
     if (user) {
       return (
@@ -103,7 +84,7 @@ const App = () => {
           <br />
           <button onClick={e => handleSortBlogs()}>
             Sort Blogs{' '}
-            {sorted.current === 'higherFirst'
+            {sorted === 'higherFirst'
               ? 'from lowest to highest'
               : 'from highest to lowest'}
           </button>

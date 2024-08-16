@@ -12,32 +12,18 @@ const blogsSlice = createSlice({
       state.push(action.payload)
     },
     deleteBlog(state, action) {
-      return state.filter(s => s.id.toString() !== action.payload.toString() )
+      return state.filter(s => s.id.toString() !== action.payload.toString())
     },
     updateBlog(state, action) {
-      return state.map(s => s.id.toString() !== action.payload.toString() ? s : action.payload)
+      return state.map(s =>
+        s.id.toString() !== action.payload.toString() ? s : action.payload,
+      )
     },
-    sortBlogs(state, action) {
-      let sortBlogs
-      const {toSortBlogs, sorted} = action.payload
-      if (toSortBlogs) {
-        sortBlogs = [...toSortBlogs]
-      } else {
-        sortBlogs = [...state.blogs]
-      }
-      sortBlogs.sort((a, b) => a.likes - b.likes)
-      if (!sorted.current || sorted.current === 'lowerFirst') {
-        sorted.current = 'higherFirst'
-        sortBlogs.reverse()
-      } else {
-        sorted.current = 'lowerFirst'
-      }
-      return sortBlogs
-    }
-  }
+  },
 })
 
-export const { setBlogs, createBlog, deleteBlog, updateBlog, sortBlogs } = blogsSlice.actions
+export const { setBlogs, createBlog, deleteBlog, updateBlog } =
+  blogsSlice.actions
 
 export const setInitialBlogs = () => {
   return async dispatch => {
@@ -50,14 +36,22 @@ export const createNewBlog = (newBlog, user) => {
   return async dispatch => {
     const savedBlog = await blogService.newBlog(newBlog, user)
     if (savedBlog) {
-      dispatch(createBlog(savedBlog))
+      dispatch(
+        createBlog({
+          ...savedBlog,
+          user: { id: user.id, name: user.name, username: user.username },
+        }),
+      )
     }
   }
 }
 
-export const likeBlog = (blog) => {
+export const likeBlog = blog => {
   return async dispatch => {
-    const savedBlog = await blogService.updateBlog(blog.id, {...blog, likes: blog.likes + 1})
+    const savedBlog = await blogService.updateBlog(blog.id, {
+      ...blog,
+      likes: blog.likes + 1,
+    })
     dispatch(updateBlog(savedBlog))
   }
 }

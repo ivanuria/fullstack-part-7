@@ -24,7 +24,10 @@ const notificationsSlice = createSlice({
 export const { createNotification, deleteNotification } =
   notificationsSlice.actions
 
-export const setNotification = (message, { timeout = 5, level = 'info' } = {}) => {
+export const setNotification = (
+  message,
+  { timeout = 5, level = 'info' } = {},
+) => {
   return async dispatch => {
     console.log('setNotification', message)
     const id = generateId()

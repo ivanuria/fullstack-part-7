@@ -3,15 +3,21 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
+import { likeBlog, removeBlog } from '../reducers/blogs'
 
-const Blog = ({ username, blog, /*updateBlog, deleteBlog,*/ user, ...props }) => {
+const Blog = ({
+  username,
+  blog,
+  /*updateBlog, deleteBlog,*/ user,
+  ...props
+}) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
 
   const sumUpLikes = async () => {
     setThinking(true)
-    await updateBlog(blog.id, { ...blog, likes: likes + 1 })
+    dispatch(likeBlog(blog))
     setLikes(likes + 1)
     dispatch(setNotification(`Liked '${blog.title}'`, { timeout: 2 }))
     setThinking(false)
@@ -58,7 +64,7 @@ const Blog = ({ username, blog, /*updateBlog, deleteBlog,*/ user, ...props }) =>
         {username === blog.user.username ? (
           <button
             className='blog__delete'
-            onClick={e => deleteBlog(blog.id)}
+            onClick={e => dispatch(removeBlog(blog.id, user))}
             style={{ marginBlock: '1rem' }}
           >
             Delete Blog
