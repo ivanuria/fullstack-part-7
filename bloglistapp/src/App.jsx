@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog.jsx'
-import blogService from './services/blogs'
 import Notifications from './components/Notification.jsx'
 import Togglable from './components/Togglable.jsx'
 // Actions
 import { setNotification } from './reducers/notifications.js'
 import { setInitialBlogs, createNewBlog } from './reducers/blogs.js'
+import { getLoggedInUser, logout } from './reducers/user.js'
 
 const initialNotifications = [
   {
@@ -19,22 +19,12 @@ const initialNotifications = [
 const App = () => {
   const dispatch = useDispatch()
   const blogs = [...useSelector(state => state.blogs)]
-  const [user, setUser] = useState()
+  const user = useSelector(state => state.user)
   const newBlogRef = useRef()
   const [sorted, setSorted] = useState()
 
   useEffect(() => {
-    let lsUser = window.localStorage.getItem('bau')
-    if (lsUser) {
-      lsUser = JSON.parse(lsUser)
-      lsUser.expiresAt = new Date(lsUser.expiresAt)
-      const now = new Date()
-      if (lsUser.expiresAt >= now) {
-        setUser(lsUser)
-      } else {
-        window.localStorage.removeItem('bau')
-      }
-    }
+    dispatch(getLoggedInUser())
     for (const notification of initialNotifications) {
       console.log('set')
       dispatch(
@@ -47,10 +37,9 @@ const App = () => {
     dispatch(setInitialBlogs())
   }, [user])
 
-  const logout = () => {
-    window.localStorage.removeItem('bau')
+  const handleLogout = () => {
+    dispatch(logout())
     dispatch(setNotification('Correctly Logged Out'))
-    setUser(null)
   }
 
   const addToblogs = async newBlog => {
@@ -74,12 +63,12 @@ const App = () => {
         <>
           <p>
             <b>{user.name}</b> logged in{' '}
-            <button style={{ marginLeft: '1ch' }} onClick={logout}>
+            <button style={{ marginLeft: '1ch' }} onClick={handleLogout}>
               Logout
             </button>
           </p>
           <Togglable buttonLabel='Add New Blog' ref={newBlogRef}>
-            <NewBlog addToBlogs={addToblogs} user={user} />
+            <NewBlog addToBlogs={addToblogs} />
           </Togglable>
           <br />
           <button onClick={e => handleSortBlogs()}>
@@ -92,14 +81,12 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              username={user.username}
-              user={user}
             />
           ))}
         </>
       )
     }
-    return <Login setUser={setUser} />
+    return <Login />
   }
 
   return (

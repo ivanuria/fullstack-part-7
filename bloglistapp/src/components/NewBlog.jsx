@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import FormRow from './FormRow'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-const NewBlog = ({ addToBlogs, user, ...props }) => {
+const NewBlog = ({ addToBlogs, ...props }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const user = useSelector(state => state.user)
 
   const addNewBlog = async event => {
     console.log('AddNewBlog')
@@ -70,8 +72,7 @@ const NewBlog = ({ addToBlogs, user, ...props }) => {
 }
 
 NewBlog.propTypes = {
-  addToBlogs: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  addToBlogs: PropTypes.func.isRequired
 }
 
 export default NewBlog

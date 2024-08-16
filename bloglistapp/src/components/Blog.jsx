@@ -1,19 +1,19 @@
 import Togglable from './Togglable'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
 import { likeBlog, removeBlog } from '../reducers/blogs'
 
 const Blog = ({
-  username,
   blog,
-  /*updateBlog, deleteBlog,*/ user,
   ...props
 }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
+  const user = useSelector(state => state.user)
+  const username = user.username
 
   const sumUpLikes = async () => {
     setThinking(true)
@@ -76,9 +76,7 @@ const Blog = ({
 }
 
 Blog.propTypes = {
-  username: PropTypes.string.isRequired,
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  blog: PropTypes.object.isRequired
 }
 
 export default Blog
