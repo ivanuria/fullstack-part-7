@@ -1,8 +1,11 @@
 import Togglable from './Togglable'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notifications'
 
 const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
+  const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
 
@@ -10,8 +13,10 @@ const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
     setThinking(true)
     await updateBlog(blog.id, { ...blog, likes: likes + 1 })
     setLikes(likes + 1)
+    dispatch(setNotification(`Liked '${blog.title}'`, { timeout: 2 }))
     setThinking(false)
   }
+
   return (
     <div
       data-testid='blog-item'

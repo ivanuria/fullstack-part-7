@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { deleteNotification } from '../reducers/notifications'
 
-const Notification = ({ message, level, setNotification }) => {
+const Notification = ({ message, level='info', onClick=() => null }) => {
   let style = {
     display: 'none',
     padding: '1rem',
@@ -35,31 +36,30 @@ const Notification = ({ message, level, setNotification }) => {
       color: 'red',
     }
   }
-
-  useEffect(() => {
-    if (message !== '') {
-      setTimeout(
-        () =>
-          setNotification({
-            message: '',
-            level: 'info',
-          }),
-        5000,
-      )
-    }
-  })
-
   return (
-    <div className='notification' data-level={level} style={style}>
+    <div className='notification' data-level={level} style={style} onClick={onClick}>
       {message}
+    </div>
+  )
+}
+
+const Notifications = () => {
+  const dispatch = useDispatch()
+  const notifications = useSelector(state => state.notifications)
+  console.log('Notifications', notifications)
+  return (
+    <div className='notifications'>
+      {notifications.map(notification => (
+        <Notification key={notification.id} {...notification} onClick={ () => dispatch(deleteNotification(notification.id)) }/>
+      ))}
     </div>
   )
 }
 
 Notification.propTypes = {
   message: PropTypes.string,
-  level: PropTypes.string.isRequired,
-  setNotification: PropTypes.func.isRequired,
+  level: PropTypes.string,
+  onClick: PropTypes.func,
 }
 
-export default Notification
+export default Notifications

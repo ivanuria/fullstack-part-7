@@ -1,22 +1,26 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog.jsx'
 import blogService from './services/blogs'
-import Notification from './components/Notification.jsx'
+import Notifications from './components/Notification.jsx'
 import Togglable from './components/Togglable.jsx'
+// Actions
+import { setNotification } from './reducers/notifications.js'
+
+const initialNotifications = [
+  {
+    message: 'Welcome to Blog List App',
+  },
+]
 
 const App = () => {
+  const dispatch = useDispatch()
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState()
-  const [notification, setNotification] = useState({
-    message: '',
-    level: 'info',
-  })
   const newBlogRef = useRef()
   const sorted = useRef(false)
-
-  console.log('Notification', notification)
 
   useEffect(() => {
     let lsUser = window.localStorage.getItem('bau')
@@ -29,6 +33,10 @@ const App = () => {
       } else {
         window.localStorage.removeItem('bau')
       }
+    }
+    for (const notification of initialNotifications) {
+      console.log('set')
+      dispatch(setNotification(notification.message, { level: notification.level }))
     }
   }, [])
 
@@ -43,10 +51,7 @@ const App = () => {
 
   const logout = () => {
     window.localStorage.removeItem('bau')
-    setNotification({
-      message: 'Correctly Logged Out',
-      level: 'info',
-    })
+    dispatch(setNotification('Correctly Logged Out'))
     setUser(null)
   }
 
@@ -54,10 +59,7 @@ const App = () => {
     const savedBlog = await blogService.newBlog(newBlog, user)
     newBlogRef.current.toggleVisible()
     setBlogs([...blogs, { ...savedBlog, user }])
-    setNotification({
-      message: `'${savedBlog.title}' correctly added`,
-      level: 'info',
-    })
+    dispatch(setNotification(`'${savedBlog.title}' correctly added`))
   }
 
   const sortBlogs = toSortBlogs => {
@@ -131,17 +133,13 @@ const App = () => {
         </>
       )
     }
-    return <Login setUser={setUser} setNotification={setNotification} />
+    return <Login setUser={setUser} />
   }
 
   return (
     <div>
       <h2>Blogs app</h2>
-      <Notification
-        message={notification.message}
-        level={notification.level}
-        setNotification={setNotification}
-      />
+      <Notifications />
       {checkLogin()}
     </div>
   )

@@ -7,12 +7,6 @@ const NewBlog = ({ addToBlogs, user, ...props }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  console.log({
-    title,
-    author,
-    url,
-  })
-
   const addNewBlog = async event => {
     console.log('AddNewBlog')
     event.preventDefault()

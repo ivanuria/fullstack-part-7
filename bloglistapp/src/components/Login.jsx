@@ -1,9 +1,13 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import loginService from '../services/login'
 import FormRow from './FormRow'
 import PropTypes from 'prop-types'
+// Actions
+import { setNotification } from '../reducers/notifications'
 
-const Login = ({ setUser, setNotification }) => {
+const Login = ({ setUser }) => {
+  const dispatch = useDispatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -13,17 +17,11 @@ const Login = ({ setUser, setNotification }) => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('bau', JSON.stringify(user))
       setUser(user)
-      setNotification({
-        message: 'Correctly Logged In',
-        level: 'info',
-      })
+      dispatch(setNotification('Correctly Logged In'))
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotification({
-        message: 'Invalid username and password',
-        level: 'error',
-      })
+      dispatch(setNotification('Invalid username and password', { level: 'error' }))
     }
   }
 
@@ -66,7 +64,6 @@ const Login = ({ setUser, setNotification }) => {
 
 Login.propTypes = {
   setUser: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
 }
 
 export default Login
