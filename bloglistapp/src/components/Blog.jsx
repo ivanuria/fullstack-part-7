@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
 
-const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
+const Blog = ({ username, blog, /*updateBlog, deleteBlog,*/ user, ...props }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
@@ -72,8 +72,7 @@ const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
 Blog.propTypes = {
   username: PropTypes.string.isRequired,
   blog: PropTypes.object.isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 export default Blog

@@ -33,7 +33,7 @@ describe('BlogApp', () => {
     test('succeeds with correct credentials', async ({ page }) => {
       await helper.login(page, 'root', 'iamroot')
 
-      expect(page.getByText('I AM ROOT logged in')).toBeVisible()
+      await expect(page.getByText('I AM ROOT logged in')).toBeVisible()
     })
 
     test('fails with wrong credentials', async ({ page }) => {
@@ -192,7 +192,7 @@ describe('BlogApp', () => {
       })
 
       test('arranged posts by likes', async ({ page }) => {
-        const blogs = page.getByTestId('blog-item')
+        const blogs = await page.getByTestId('blog-item')
         let count = 1
         for (const item of await blogs.all()) {
           await item.getByText(/view/i).click()

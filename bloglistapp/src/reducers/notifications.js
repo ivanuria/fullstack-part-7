@@ -8,9 +8,6 @@ const notificationsSlice = createSlice({
   name: 'notifications',
   initialState: [],
   reducers: {
-    getNotifications(state) {
-      return state
-    },
     createNotification(state, action) {
       console.log('createNotification')
       const content = action.payload
@@ -24,7 +21,7 @@ const notificationsSlice = createSlice({
   },
 })
 
-export const { getNotifications, createNotification, deleteNotification } =
+export const { createNotification, deleteNotification } =
   notificationsSlice.actions
 
 export const setNotification = (message, { timeout = 5, level = 'info' } = {}) => {

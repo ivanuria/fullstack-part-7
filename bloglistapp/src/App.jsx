@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog.jsx'
@@ -8,6 +8,7 @@ import Notifications from './components/Notification.jsx'
 import Togglable from './components/Togglable.jsx'
 // Actions
 import { setNotification } from './reducers/notifications.js'
+import { setInitialBlogs, createNewBlog, sortBlogs,  } from './reducers/blogs.js'
 
 const initialNotifications = [
   {
@@ -17,7 +18,8 @@ const initialNotifications = [
 
 const App = () => {
   const dispatch = useDispatch()
-  const [blogs, setBlogs] = useState([])
+  //const [blogs, setBlogs] = useState([])
+  const blogs = useSelector(state => state.blogs)
   const [user, setUser] = useState()
   const newBlogRef = useRef()
   const sorted = useRef(false)
@@ -41,12 +43,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (!user) return
-    const getBlogs = async () => {
-      let blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-    getBlogs()
+    dispatch(setInitialBlogs())
   }, [user])
 
   const logout = () => {
@@ -56,27 +53,16 @@ const App = () => {
   }
 
   const addToblogs = async newBlog => {
-    const savedBlog = await blogService.newBlog(newBlog, user)
+    dispatch(createNewBlog(newBlog, user))
+    dispatch(setNotification(`'${newBlog.title}' correctly added`))
     newBlogRef.current.toggleVisible()
-    setBlogs([...blogs, { ...savedBlog, user }])
-    dispatch(setNotification(`'${savedBlog.title}' correctly added`))
   }
 
-  const sortBlogs = toSortBlogs => {
-    let sortBlogs
-    if (toSortBlogs) {
-      sortBlogs = [...toSortBlogs]
-    } else {
-      sortBlogs = [...blogs]
-    }
-    sortBlogs.sort((a, b) => a.likes - b.likes)
-    if (!sorted.current || sorted.current === 'lowerFirst') {
-      sorted.current = 'higherFirst'
-      sortBlogs.reverse()
-    } else {
-      sorted.current = 'lowerFirst'
-    }
-    setBlogs(sortBlogs)
+  const handleSortBlogs = toSortBlogs => {
+    dispatch(sortBlogs({
+      sorted,
+      toSortBlogs
+    }))
   }
 
   const updateBlog = async (id, blog) => {
@@ -86,7 +72,7 @@ const App = () => {
     if (sorted.current) {
       sorted.current =
         sorted.current === 'lowerFirst' ? 'higherFirst' : 'lowerFirst'
-      sortBlogs(updatedBlogs)
+      handleSortBlogs(updatedBlogs)
     } else {
       setBlogs(updatedBlogs)
     }
@@ -115,7 +101,7 @@ const App = () => {
             <NewBlog addToBlogs={addToblogs} user={user} />
           </Togglable>
           <br />
-          <button onClick={e => sortBlogs()}>
+          <button onClick={e => handleSortBlogs()}>
             Sort Blogs{' '}
             {sorted.current === 'higherFirst'
               ? 'from lowest to highest'
@@ -125,9 +111,8 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              updateBlog={updateBlog}
-              deleteBlog={deleteBlog}
               username={user.username}
+              user={user}
             />
           ))}
         </>
