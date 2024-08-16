@@ -1,7 +1,11 @@
-import { useEffect } from 'react'
+import { useNotificationsValue, useNotificationsDispatch, actions } from '../contexts/NotificationsContext'
 import PropTypes from 'prop-types'
 
-const Notification = ({ message, level, setNotification }) => {
+const Notification = ({ id, message, level }) => {
+  const notificationDispatch = useNotificationsDispatch()
+  const handleClick = () => {
+    notificationDispatch(actions.deleteNotification(id))
+  }
   let style = {
     display: 'none',
     padding: '1rem',
@@ -10,6 +14,7 @@ const Notification = ({ message, level, setNotification }) => {
     border: '1px solid currentcolor',
     color: 'black',
     borderRadius: '.5rem',
+    cursor: 'pointer'
   }
 
   if (level === 'info' && message !== '') {
@@ -36,30 +41,29 @@ const Notification = ({ message, level, setNotification }) => {
     }
   }
 
-  useEffect(() => {
-    if (message !== '') {
-      setTimeout(
-        () =>
-          setNotification({
-            message: '',
-            level: 'info',
-          }),
-        5000,
-      )
-    }
-  })
+  return (
+    <div className='notification' data-level={level} style={style} onClick={handleClick}>
+      {message}
+    </div>
+  )
+}
+
+const Notifications = () => {
+  const notifications = useNotificationsValue()
 
   return (
-    <div className='notification' data-level={level} style={style}>
-      {message}
+    <div className="notifications">
+      {notifications.map(
+        notification =>
+          <Notification key={notification.id} {...notification} />
+      )}
     </div>
   )
 }
 
 Notification.propTypes = {
   message: PropTypes.string,
-  level: PropTypes.string.isRequired,
-  setNotification: PropTypes.func.isRequired,
+  level: PropTypes.string.isRequired
 }
 
-export default Notification
+export default Notifications
