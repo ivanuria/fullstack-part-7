@@ -17,9 +17,12 @@ const loginReducer = (state, action) => {
         }
       }
     case 'login/login':
-      const user = JSON.stringify(action.payload)
-      window.localStorage.setItem('bau', user)
-      return user
+      if (action.payload) {
+        const user = JSON.stringify(action.payload)
+        window.localStorage.setItem('bau', user)
+        return action.payload
+      }
+      return null
     case 'login/logout':
       window.localStorage.removeItem('bau')
       return null
@@ -47,17 +50,17 @@ export const actions = {
   }
 }
 
+const LoginContext = createContext()
+
 export const useLoginValue = () => {
-  const vAndD = useContext(NotificationsContext)
+  const vAndD = useContext(LoginContext)
   return vAndD[0]
 }
 
 export const useLoginDispatch = () => {
-  const vAndD = useContext(NotificationsContext)
+  const vAndD = useContext(LoginContext)
   return vAndD[1]
 }
-
-const LoginContext = createContext()
 
 export const LoginContextProvider = ({ children }) => {
   const [login, loginDispatch] = useReducer(loginReducer, [])
@@ -73,4 +76,4 @@ LoginContextProvider.propTypes = {
   children: PropTypes.any
 }
 
-export default LoginContextProvider
+export default LoginContext

@@ -1,8 +1,8 @@
 const login = async (page, username, password) => {
-  const form = page.getByTestId('loginform')
-  const usr = form.getByTestId('username')
-  const pwd = form.getByTestId('password')
-  const button = form.getByRole('button')
+  const form = await page.getByTestId('loginform')
+  const usr = await form.getByTestId('username')
+  const pwd = await form.getByTestId('password')
+  const button = await form.getByRole('button')
 
   await usr.fill(username)
   await pwd.fill(password)

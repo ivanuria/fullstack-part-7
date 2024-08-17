@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useContext } from 'react'
+import { useQuery } from '@tanstack/react-query'
+// Contexts
 import NotificationsContext, { dispatchNotification } from './contexts/NotificationsContext.jsx'
+import LoginContext, { actions as loginActions } from './contexts/LoginContext.jsx'
 // Components
 import Blog from './components/Blog'
 import Login from './components/Login'
@@ -16,7 +19,7 @@ const initialNotifications = [
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState()
+  const [user, dispatchUser] = useContext(LoginContext)
   const [notification, setNotification] = useContext(NotificationsContext)
   const newBlogRef = useRef()
   const sorted = useRef(false)
@@ -24,17 +27,7 @@ const App = () => {
   console.log('Notification', notification)
 
   useEffect(() => {
-    let lsUser = window.localStorage.getItem('bau')
-    if (lsUser) {
-      lsUser = JSON.parse(lsUser)
-      lsUser.expiresAt = new Date(lsUser.expiresAt)
-      const now = new Date()
-      if (lsUser.expiresAt >= now) {
-        setUser(lsUser)
-      } else {
-        window.localStorage.removeItem('bau')
-      }
-    }
+    dispatchUser(loginActions.checkInitialLoggedIn())
     for (const notification of initialNotifications) {
       dispatchNotification(setNotification, notification.message)
   }
@@ -42,6 +35,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
+    console.log('USER', user)
     if (!user) return
     const getBlogs = async () => {
       let blogs = await blogService.getAll()
@@ -51,9 +45,8 @@ const App = () => {
   }, [user])
 
   const logout = () => {
-    window.localStorage.removeItem('bau')
+    dispatchUser(loginActions.logout())
     dispatchNotification(setNotification, 'Correctly Logged Out')
-    setUser(null)
   }
 
   const addToblogs = async newBlog => {
@@ -113,7 +106,7 @@ const App = () => {
             </button>
           </p>
           <Togglable buttonLabel='Add New Blog' ref={newBlogRef}>
-            <NewBlog addToBlogs={addToblogs} user={user} />
+            <NewBlog addToBlogs={addToblogs} />
           </Togglable>
           <br />
           <button onClick={e => sortBlogs()}>
@@ -128,13 +121,12 @@ const App = () => {
               blog={blog}
               updateBlog={updateBlog}
               deleteBlog={deleteBlog}
-              username={user.username}
             />
           ))}
         </>
       )
     }
-    return <Login setUser={setUser} />
+    return <Login />
   }
 
   return (

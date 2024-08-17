@@ -2,10 +2,13 @@ import { useState } from 'react'
 import FormRow from './FormRow'
 import PropTypes from 'prop-types'
 
-const NewBlog = ({ addToBlogs, user, ...props }) => {
+import { useLoginValue } from '../contexts/LoginContext'
+
+const NewBlog = ({ addToBlogs, ...props }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const user = useLoginValue()
 
   console.log({
     title,
@@ -76,8 +79,7 @@ const NewBlog = ({ addToBlogs, user, ...props }) => {
 }
 
 NewBlog.propTypes = {
-  addToBlogs: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  addToBlogs: PropTypes.func.isRequired
 }
 
 export default NewBlog

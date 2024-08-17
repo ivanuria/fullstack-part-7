@@ -1,24 +1,26 @@
 import { useState } from 'react'
 import { useNotificationsDispatch, dispatchNotification } from '../contexts/NotificationsContext.jsx'
+import { useLoginDispatch, actions as loginActions } from '../contexts/LoginContext.jsx'
 import loginService from '../services/login'
 import FormRow from './FormRow'
-import PropTypes from 'prop-types'
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const setNotification = useNotificationsDispatch()
+  const loginDispatch = useLoginDispatch()
 
   const doLogin = async event => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('bau', JSON.stringify(user))
-      setUser(user)
+      loginDispatch(loginActions.login(user))
       dispatchNotification(setNotification, 'Correctly Logged In')
       setUsername('')
       setPassword('')
     } catch (exception) {
+      console.log('Login Error:', exception.message)
       dispatchNotification(setNotification, 'Invalid username and password', { level: 'error' })
     }
   }
@@ -58,10 +60,6 @@ const Login = ({ setUser }) => {
       <input type='submit' value='Login' />
     </form>
   )
-}
-
-Login.propTypes = {
-  setUser: PropTypes.func.isRequired
 }
 
 export default Login

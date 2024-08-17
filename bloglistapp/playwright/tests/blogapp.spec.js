@@ -12,7 +12,7 @@ describe('BlogApp', () => {
       },
     })
     await page.goto('/')
-    await page.locator('body').waitFor()
+    //await page.locator('body').waitFor()
   })
 
   test('Login form is shown', async ({ page }) => {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useLoginValue } from '../contexts/LoginContext'
 
 const handleError = (error, on4xx, on5xx) => {
   if (error.response && error.response.status) {
@@ -17,9 +18,7 @@ const useCRUD = (
     on5xx = () => console.log('server error')
   }) => {
 
-  const user = {
-    token: 'testtoken'
-  } // TODO
+  const user = useLoginValue()
 
   const headers = {}
 

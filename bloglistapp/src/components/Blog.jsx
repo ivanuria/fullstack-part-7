@@ -2,9 +2,12 @@ import Togglable from './Togglable'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
+import { useLoginValue } from '../contexts/LoginContext'
+
+const Blog = ({ blog, updateBlog, deleteBlog, ...props }) => {
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
+  const username = useLoginValue().username
 
   const sumUpLikes = async () => {
     setThinking(true)
@@ -65,7 +68,6 @@ const Blog = ({ username, blog, updateBlog, deleteBlog, ...props }) => {
 }
 
 Blog.propTypes = {
-  username: PropTypes.string.isRequired,
   blog: PropTypes.object.isRequired,
   updateBlog: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
