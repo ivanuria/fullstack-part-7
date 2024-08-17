@@ -7,11 +7,12 @@ import { useLoginValue } from '../contexts/LoginContext'
 const Blog = ({ blog, updateBlog, deleteBlog, ...props }) => {
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
-  const username = useLoginValue().username
+  const user = useLoginValue()
 
-  const sumUpLikes = async () => {
+  const sumUpLikes = () => {
+    console.log('sumUpLikes')
     setThinking(true)
-    await updateBlog(blog.id, { ...blog, likes: likes + 1 })
+    updateBlog({ ...blog, likes: likes + 1, user: blog.user.id })
     setLikes(likes + 1)
     setThinking(false)
   }
@@ -53,7 +54,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, ...props }) => {
         <br />
         {blog.user.name}
         <br />
-        {username === blog.user.username ? (
+        {user.username === blog.user.username ? (
           <button
             className='blog__delete'
             onClick={e => deleteBlog(blog.id)}

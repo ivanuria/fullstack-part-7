@@ -10,12 +10,6 @@ const NewBlog = ({ addToBlogs, ...props }) => {
   const [url, setUrl] = useState('')
   const user = useLoginValue()
 
-  console.log({
-    title,
-    author,
-    url,
-  })
-
   const addNewBlog = async event => {
     console.log('AddNewBlog')
     event.preventDefault()

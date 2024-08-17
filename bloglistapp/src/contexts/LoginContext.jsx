@@ -27,7 +27,7 @@ const loginReducer = (state, action) => {
       window.localStorage.removeItem('bau')
       return null
     default:
-      return state
+      return null
   }
 }
 

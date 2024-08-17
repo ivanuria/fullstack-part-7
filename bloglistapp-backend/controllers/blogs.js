@@ -29,7 +29,12 @@ blogsRoutes.post('/', middleware.restricted, async (request, response) => {
     blogs: user.blogs.concat(result._id.toString()),
   })
 
-  response.status(201).json(result)
+  const finalBlog = await Blog.findById(result._id.toString()).populate('user', {
+    username: 1,
+    name: 1,
+  })
+
+  response.status(201).json(finalBlog)
 })
 
 blogsRoutes.get('/:id', async (request, response) => {
@@ -72,7 +77,10 @@ blogsRoutes.put('/:id', async (request, response) => {
     request.params.id,
     { title, author, url, likes, user },
     { new: true, runValidators: true, context: 'query' },
-  )
+  ).populate('user', {
+    username: 1,
+    name: 1,
+  })
 
   response.status(200).json(newBlog)
 })

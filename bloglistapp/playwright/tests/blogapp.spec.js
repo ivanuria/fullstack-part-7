@@ -201,24 +201,7 @@ describe('BlogApp', () => {
           }
           count++
         }
-
-        await page
-          .getByRole('button')
-          .filter({ hasText: /sort blogs from highest to lowest/i })
-          .click()
         let last
-        for (const item of await blogs.all()) {
-          const data = Number(
-            (await item.getByText(/^Likes:/).textContent()).replace(
-              'Likes: ',
-              '',
-            ),
-          )
-          if (last) {
-            expect(data <= last).toBeTruthy()
-          }
-          last = data
-        }
 
         await page
           .getByRole('button')
@@ -237,6 +220,25 @@ describe('BlogApp', () => {
           }
           last = data
         }
+
+        await page
+          .getByRole('button')
+          .filter({ hasText: /sort blogs from highest to lowest/i })
+          .click()
+        last = null
+        for (const item of await blogs.all()) {
+          const data = Number(
+            (await item.getByText(/^Likes:/).textContent()).replace(
+              'Likes: ',
+              '',
+            ),
+          )
+          if (last) {
+            expect(data <= last).toBeTruthy()
+          }
+          last = data
+        }
+
       })
     })
   })
