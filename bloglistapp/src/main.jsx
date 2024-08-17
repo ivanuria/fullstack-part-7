@@ -12,8 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     providers={[
       LoginContextProvider,
       NotificationsContextProvider,
-      [QueryClientProvider, {client: queryClient}]
-    ]}>
-      <App />
-  </Providers>
+      [QueryClientProvider, { client: queryClient }],
+    ]}
+  >
+    <App />
+  </Providers>,
 )

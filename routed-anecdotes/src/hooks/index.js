@@ -1,20 +1,20 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-export const useField = (type, defaultValue='', hooks=[]) => {
-  const [value, setValue] = useState(defaultValue)
+export const useField = (type, defaultValue = "", hooks = []) => {
+  const [value, setValue] = useState(defaultValue);
 
-  const onChange = event => {
-    setValue(event.target.value)
-  }
+  const onChange = (event) => {
+    setValue(event.target.value);
+  };
 
-  let onClick = () => null
+  let onClick = () => null;
 
-  if (type === 'reset') {
+  if (type === "reset") {
     onClick = () => {
       for (const hook of hooks) {
-        hook.setValue('')
+        hook.setValue("");
       }
-    }
+    };
   }
 
   return {
@@ -22,6 +22,6 @@ export const useField = (type, defaultValue='', hooks=[]) => {
     value,
     setValue,
     onChange,
-    onClick
-  }
-}
+    onClick,
+  };
+};

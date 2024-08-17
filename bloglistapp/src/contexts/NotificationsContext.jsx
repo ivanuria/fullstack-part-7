@@ -7,12 +7,9 @@ const createId = () => {
 
 const notificationsReducer = (state, action) => {
   switch (action.type) {
-    case "notifications/createNotification":
-      return [
-        ...state,
-        action.payload
-      ]
-    case "notifications/deleteNotification":
+    case 'notifications/createNotification':
+      return [...state, action.payload]
+    case 'notifications/deleteNotification':
       return state.filter(s => s.id.toString() !== action.payload.toString())
     default:
       return []
@@ -22,25 +19,31 @@ const notificationsReducer = (state, action) => {
 export const actions = {
   createNotification(notification) {
     return {
-      type: "notifications/createNotification",
-      payload: notification
+      type: 'notifications/createNotification',
+      payload: notification,
     }
   },
   deleteNotification(id) {
     return {
-      type: "notifications/deleteNotification",
-      payload: id
+      type: 'notifications/deleteNotification',
+      payload: id,
     }
-  }
+  },
 }
 
-export const dispatchNotification = (dispatch, message, { level='info', timeout=5 } = {}) => {
+export const dispatchNotification = (
+  dispatch,
+  message,
+  { level = 'info', timeout = 5 } = {},
+) => {
   const id = createId()
-  dispatch(actions.createNotification({
-    id,
-    message,
-    level
-  }))
+  dispatch(
+    actions.createNotification({
+      id,
+      message,
+      level,
+    }),
+  )
   setTimeout(() => {
     dispatch(actions.deleteNotification(id))
   }, timeout * 1000)
@@ -60,17 +63,22 @@ export const useNotificationsDispatch = () => {
 const NotificationsContext = createContext()
 
 export const NotificationsContextProvider = ({ children }) => {
-  const [notifications, notificationsDispatch] = useReducer(notificationsReducer, [])
+  const [notifications, notificationsDispatch] = useReducer(
+    notificationsReducer,
+    [],
+  )
 
   return (
-    <NotificationsContext.Provider value={[notifications, notificationsDispatch]}>
-      { children }
+    <NotificationsContext.Provider
+      value={[notifications, notificationsDispatch]}
+    >
+      {children}
     </NotificationsContext.Provider>
   )
 }
 
 NotificationsContextProvider.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
 }
 
 export default NotificationsContext

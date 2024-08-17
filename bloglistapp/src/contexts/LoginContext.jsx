@@ -32,22 +32,22 @@ const loginReducer = (state, action) => {
 }
 
 export const actions = {
-  checkInitialLoggedIn () {
+  checkInitialLoggedIn() {
     return {
-      type: 'login/checkInitialLoggedIn'
+      type: 'login/checkInitialLoggedIn',
     }
   },
-  login (user) {
+  login(user) {
     return {
       type: 'login/login',
-      payload: user
+      payload: user,
     }
   },
-  logout () {
+  logout() {
     return {
-      type: 'login/logout'
+      type: 'login/logout',
     }
-  }
+  },
 }
 
 const LoginContext = createContext()
@@ -67,13 +67,13 @@ export const LoginContextProvider = ({ children }) => {
 
   return (
     <LoginContext.Provider value={[login, loginDispatch]}>
-      { children }
+      {children}
     </LoginContext.Provider>
   )
 }
 
 LoginContextProvider.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
 }
 
 export default LoginContext

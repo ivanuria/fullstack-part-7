@@ -1,4 +1,8 @@
-import { useNotificationsValue, useNotificationsDispatch, actions } from '../contexts/NotificationsContext'
+import {
+  useNotificationsValue,
+  useNotificationsDispatch,
+  actions,
+} from '../contexts/NotificationsContext'
 import PropTypes from 'prop-types'
 
 const Notification = ({ id, message, level }) => {
@@ -14,7 +18,7 @@ const Notification = ({ id, message, level }) => {
     border: '1px solid currentcolor',
     color: 'black',
     borderRadius: '.5rem',
-    cursor: 'pointer'
+    cursor: 'pointer',
   }
 
   if (level === 'info' && message !== '') {
@@ -42,7 +46,12 @@ const Notification = ({ id, message, level }) => {
   }
 
   return (
-    <div className='notification' data-level={level} style={style} onClick={handleClick}>
+    <div
+      className='notification'
+      data-level={level}
+      style={style}
+      onClick={handleClick}
+    >
       {message}
     </div>
   )
@@ -52,18 +61,17 @@ const Notifications = () => {
   const notifications = useNotificationsValue()
 
   return (
-    <div className="notifications">
-      {notifications.map(
-        notification =>
-          <Notification key={notification.id} {...notification} />
-      )}
+    <div className='notifications'>
+      {notifications.map(notification => (
+        <Notification key={notification.id} {...notification} />
+      ))}
     </div>
   )
 }
 
 Notification.propTypes = {
   message: PropTypes.string,
-  level: PropTypes.string.isRequired
+  level: PropTypes.string.isRequired,
 }
 
 export default Notifications

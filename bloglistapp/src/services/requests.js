@@ -4,9 +4,15 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
 const handleError = (error, on4xx, on5xx) => {
   if (error.response && error.response.status) {
-    if (Number(error.response.status) >= 400 && Number(error.response.status) < 500)
+    if (
+      Number(error.response.status) >= 400 &&
+      Number(error.response.status) < 500
+    )
       return on4xx(error)
-    if (Number(error.response.status) >= 500 && Number(error.response.status) < 600)
+    if (
+      Number(error.response.status) >= 500 &&
+      Number(error.response.status) < 600
+    )
       return on5xx(error)
   }
   throw error
@@ -14,17 +20,17 @@ const handleError = (error, on4xx, on5xx) => {
 
 const useCRUD = (
   baseUrl,
-  errorHandlers={
-    on4xx: (error) => {
+  errorHandlers = {
+    on4xx: error => {
       console.log('unauthorized')
       throw error
     },
-    on5xx: (error) => {
+    on5xx: error => {
       console.log('server error')
       throw error
-    }
-  }) => {
-
+    },
+  },
+) => {
   const user = useLoginValue()
 
   const headers = {}
@@ -57,7 +63,7 @@ const useCRUD = (
     return data
   }
 
-  const Update = async (newObject) => {
+  const Update = async newObject => {
     const id = newObject.id
     const url = `${baseUrl}/${id}`
     console.log('UPDATE', url)
@@ -84,37 +90,45 @@ const useCRUD = (
   return [Create, Read, Update, Delete]
 }
 
-const useRequests = (baseUrl, queryKey, errorHandlers={
-    on4xx: (error) => {
+const useRequests = (
+  baseUrl,
+  queryKey,
+  errorHandlers = {
+    on4xx: error => {
       console.log('unauthorized')
       throw error
     },
-    on5xx: (error) => {
+    on5xx: error => {
       console.log('server error')
       throw error
-    }
-  }) => {
-
+    },
+  },
+) => {
   const queryClient = useQueryClient()
   const [c, r, u, d] = useCRUD(baseUrl, errorHandlers)
 
   const createMutation = useMutation({
     mutationFn: c,
-    onSuccess: (savedObject) => {
+    onSuccess: savedObject => {
       const objs = queryClient.getQueryData(queryKey)
       queryClient.setQueryData(queryKey, objs.concat(savedObject))
-    }
+    },
   })
 
   const updateMutation = useMutation({
     mutationFn: u,
-    onSuccess: (savedObject) => {
+    onSuccess: savedObject => {
       const objs = queryClient.getQueryData(queryKey)
-      queryClient.setQueryData(queryKey, objs.map(o => o.id.toString() !== savedObject.id.toString() ? o : savedObject))
+      queryClient.setQueryData(
+        queryKey,
+        objs.map(o =>
+          o.id.toString() !== savedObject.id.toString() ? o : savedObject,
+        ),
+      )
     },
-    onError: (error) => {
+    onError: error => {
       console.log(error)
-    }
+    },
   })
 
   const deleteMutation = useMutation({
@@ -122,31 +136,34 @@ const useRequests = (baseUrl, queryKey, errorHandlers={
     onSuccess: (data, variables) => {
       console.log('variables', variables)
       const objs = queryClient.getQueryData(queryKey)
-      queryClient.setQueryData(queryKey, objs.filter(o => o.id.toString() !== variables.toString()))
-    }
+      queryClient.setQueryData(
+        queryKey,
+        objs.filter(o => o.id.toString() !== variables.toString()),
+      )
+    },
   })
 
-  const Create = async (newObject) => {
+  const Create = async newObject => {
     createMutation.mutate(newObject)
     return createMutation
   }
 
-  const Read = (id) => {
+  const Read = id => {
     const result = useQuery({
       queryKey,
       queryFn: () => r(id).then(res => res),
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     })
     return result
   }
 
-  const Update = (newObject) => {
+  const Update = newObject => {
     console.log('UPDATEMutation')
     updateMutation.mutate(newObject)
     return updateMutation
   }
 
-  const Delete = (id) => {
+  const Delete = id => {
     deleteMutation.mutate(id)
     return deleteMutation
   }

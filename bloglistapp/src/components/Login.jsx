@@ -1,6 +1,12 @@
 import { useState } from 'react'
-import { useNotificationsDispatch, dispatchNotification } from '../contexts/NotificationsContext.jsx'
-import { useLoginDispatch, actions as loginActions } from '../contexts/LoginContext.jsx'
+import {
+  useNotificationsDispatch,
+  dispatchNotification,
+} from '../contexts/NotificationsContext.jsx'
+import {
+  useLoginDispatch,
+  actions as loginActions,
+} from '../contexts/LoginContext.jsx'
 import loginService from '../services/login'
 import FormRow from './FormRow'
 
@@ -21,7 +27,9 @@ const Login = () => {
       setPassword('')
     } catch (exception) {
       console.log('Login Error:', exception.message)
-      dispatchNotification(setNotification, 'Invalid username and password', { level: 'error' })
+      dispatchNotification(setNotification, 'Invalid username and password', {
+        level: 'error',
+      })
     }
   }
 

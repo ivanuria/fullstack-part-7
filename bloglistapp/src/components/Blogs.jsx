@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
 import useRequests from '../services/requests.js'
-import Blog from "./Blog"
+import Blog from './Blog'
 
 const Blogs = ({ sorted }) => {
-  const [createBlog, readBlog, updateBlog, deleteBlog] = useRequests('/api/blogs', ['blogs'])
+  const [createBlog, readBlog, updateBlog, deleteBlog] = useRequests(
+    '/api/blogs',
+    ['blogs'],
+  )
   const blogsRequest = readBlog()
 
   let blogs = blogsRequest.data || []
@@ -18,9 +20,7 @@ const Blogs = ({ sorted }) => {
   }
 
   if (blogsRequest.isLoading) {
-    return (
-      <div>Loading...</div>
-    )
+    return <div>Loading...</div>
   }
   console.log(sorted)
   blogs = [...blogs].sort((a, b) => {
@@ -32,14 +32,17 @@ const Blogs = ({ sorted }) => {
 
   return (
     <>
-    {blogs.map(blog => blog && (
-      <Blog
-        key={blog.id}
-        blog={blog}
-        updateBlog={updateBlog}
-        deleteBlog={removeBlog}
-      />
-    ))}
+      {blogs.map(
+        blog =>
+          blog && (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={removeBlog}
+            />
+          ),
+      )}
     </>
   )
 }

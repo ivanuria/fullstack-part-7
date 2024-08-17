@@ -238,7 +238,6 @@ describe('BlogApp', () => {
           }
           last = data
         }
-
       })
     })
   })
