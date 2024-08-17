@@ -14,6 +14,8 @@ const notificationsReducer = (state, action) => {
       ]
     case "notifications/deleteNotification":
       return state.filter(s => s.id.toString() !== action.payload.toString())
+    default:
+      return state
   }
 }
 
