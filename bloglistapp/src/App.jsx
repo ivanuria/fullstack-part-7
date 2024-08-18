@@ -6,6 +6,7 @@ import Blogs from './components/Blogs'
 import Login from './components/Login'
 import NewBlog from './components/NewBlog.jsx'
 import Notifications from './components/Notification.jsx'
+import Users from './components/Users.jsx'
 // Actions
 import { setNotification } from './reducers/notifications.js'
 import { getLoggedInUser, logout } from './reducers/user.js'
@@ -19,7 +20,6 @@ const initialNotifications = [
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  const newBlogRef = useRef()
 
   useEffect(() => {
     dispatch(getLoggedInUser())
@@ -34,10 +34,6 @@ const App = () => {
   const handleLogout = () => {
     dispatch(logout())
     dispatch(setNotification('Correctly Logged Out'))
-  }
-
-  const Users = () => {
-    return null
   }
 
   return (

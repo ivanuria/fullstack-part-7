@@ -51,4 +51,4 @@ export const patchUser = (id) => {
   }
 }
 
-export default blogsSlice.reducer
+export default usersSlice.reducer
