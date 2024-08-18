@@ -48,7 +48,7 @@ const nonExistingId = async () => {
 }
 
 const allBlogs = async () => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('comments')
   return blogs.map(blog => blog.toJSON())
 }
 

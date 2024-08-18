@@ -15,8 +15,10 @@ const {
 const api = supertest(app)
 
 var user
+var userId
 var token
 var user2
+var user2Id
 var token2
 
 describe('blogs list api', async () => {
@@ -27,14 +29,21 @@ describe('blogs list api', async () => {
   before(async () => {
     await deleteAllUsers()
     await addUser(rootUser)
-    user = (await getAllUsers())[0].id
+    user = (await getAllUsers())[0]
+    user = {
+      name: user.name,
+      id: user.id,
+      username: user.username
+    }
+    userId = (await getAllUsers())[0].id
     let login = await api.post('/api/login').send({
       username: rootUser.username,
       password: rootUser.password,
     })
     token = login.body.token
     await addUser(otherUser)
-    user2 = (await getAllUsers())[0].id
+    user2 = (await getAllUsers())[0]
+    user2Id = (await getAllUsers())[0].id
     login = await api.post('/api/login').send({
       username: otherUser.username,
       password: otherUser.password,
@@ -46,7 +55,7 @@ describe('blogs list api', async () => {
     await helper.clearBlogs()
     await helper.saveBlogs(
       helper.initialBlogs.map(blog => {
-        return { ...blog, user }
+        return { ...blog, user:userId }
       }),
     )
   })
@@ -59,7 +68,6 @@ describe('blogs list api', async () => {
         .expect('Content-Type', /application\/json/)
 
       assert.strictEqual(response.body.length, helper.initialBlogs.length)
-
       assert(
         response.body
           .map(blog => blog.user.username)
@@ -97,7 +105,8 @@ describe('blogs list api', async () => {
       assert.deepStrictEqual(response.body, {
         ...newPost,
         id: response.body.id,
-        user,
+        comments: [],
+        user
       })
 
       const savedPosts = await helper.allBlogs()
@@ -143,6 +152,7 @@ describe('blogs list api', async () => {
         ...newPost,
         id: response.body.id,
         likes: 0,
+        comments: [],
         user,
       })
 
@@ -276,6 +286,7 @@ describe('blogs list api', async () => {
       assert.deepStrictEqual(requestedBlog.body, {
         ...newPost,
         id: savedBlog.id,
+        comments: [],
       })
     })
 
@@ -360,6 +371,7 @@ describe('blogs list api', async () => {
         ...updatePost,
         id: idToUpdate,
         user,
+        comments: [],
       })
 
       const currentPosts = await helper.allBlogs()
@@ -400,6 +412,7 @@ describe('blogs list api', async () => {
         ...postToUpdate,
         ...updatePost,
         user,
+        comments: [],
       })
 
       const currentPosts = await helper.allBlogs()
@@ -440,6 +453,7 @@ describe('blogs list api', async () => {
         ...postToUpdate,
         ...updatePost,
         user,
+        comments: [],
       })
 
       const currentPosts = await helper.allBlogs()
@@ -535,6 +549,52 @@ describe('blogs list api', async () => {
 
       const errors = updatedPost.body.validationErrors.map(error => error.code)
       assert(errors.includes('e00032'))
+    })
+
+    test('adds comment', async () => {
+      const savedPosts = await helper.allBlogs()
+      assert.strictEqual(savedPosts.length, helper.initialBlogs.length)
+
+      const idToUpdate = savedPosts[0].id
+
+      const postToUpdate = savedPosts[0]
+
+      const updatePost = {
+        comments: ['hola caracola'],
+      }
+
+      const updatedPost = await api
+        .post(`/api/blogs/${idToUpdate}/comments`)
+        .send({ content: 'hola caracola' })
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      assert.deepStrictEqual(updatedPost.body, {
+        ...postToUpdate,
+        ...updatePost,
+        user,
+        comments: [ { id: updatedPost.body.comments[0].id, content: 'hola caracola' }],
+      })
+
+      const currentPosts = await helper.allBlogs()
+      assert.strictEqual(currentPosts.length, helper.initialBlogs.length)
+
+      const titles = currentPosts.map(post => post.title)
+      assert(titles.includes(postToUpdate.title))
+
+      const authors = currentPosts.map(post => post.author)
+      assert(authors.includes(postToUpdate.author))
+
+      const slugs = currentPosts.map(post => post.url)
+      assert(slugs.includes(postToUpdate.url))
+
+      const likes = currentPosts.map(post => post.likes)
+      assert(likes.includes(postToUpdate.likes))
+
+      let comments = currentPosts.reduce((a, b) => a.concat(b.comments), [])
+      comments = comments.map(comment => comment.content)
+      console.log(comments)
+      assert(comments.includes('hola caracola'))
     })
   })
 })
