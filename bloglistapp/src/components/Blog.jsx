@@ -2,16 +2,19 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
-import { likeBlog, removeBlog } from '../reducers/blogs'
+import { likeBlog, removeBlog, commentBlog } from '../reducers/blogs'
+
+import FormRow from './FormRow'
 
 const Blog = ({ blog, ...props }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
+  const [comment, setComment] = useState('')
   const [thinking, setThinking] = useState(false)
   const user = useSelector(state => state.user)
   const username = user.username
 
-  const sumUpLikes = async () => {
+  const sumUpLikes = () => {
     setThinking(true)
     dispatch(likeBlog(blog))
     setLikes(likes + 1)
@@ -19,7 +22,10 @@ const Blog = ({ blog, ...props }) => {
     setThinking(false)
   }
 
-  console.log(blog)
+  const commentHandler = () => {
+    dispatch(commentBlog(blog.id, comment))
+    setComment('')
+  }
 
   return (
     <div
@@ -62,6 +68,12 @@ const Blog = ({ blog, ...props }) => {
           </button>
         ) : null}
         <div>
+          <h3>Comments:</h3>
+          <FormRow>
+            <label htmlFor='comment'>New Comment:</label>
+            <input id='comment' value={comment} onChange={(e) => setComment(e.target.value)} />
+            <button onClick={commentHandler}>Comment</button>
+          </FormRow>
           <ul>
             {blog.comments.map(comment =>
               <li key={comment.id}>{ comment.content }</li>

@@ -9,5 +9,5 @@ country-hook
 Exercise 7.8:
 ultimate-hooks
 
-Exercises 7.9 to 7.18:
+Exercises 7.9 to 7.19:
 bloglistapp & bloglistapp-backend

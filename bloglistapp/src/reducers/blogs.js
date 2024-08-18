@@ -58,12 +58,14 @@ export const removeBlog = id => {
 
 export const commentBlog = (id, comment) => {
   return async dispatch => {
+    let savedBlog
     try {
-      const savedBlog = await createComment(id, comment)
+      savedBlog = await createComment(id, comment)
     } catch (error) {
       console.log(error.message)
       throw error
     }
+    console.log(savedBlog)
     dispatch(updateBlogs(savedBlog))
   }
 }
