@@ -21,7 +21,7 @@ const crud = (name, baseUrl) => {
     },
     [`read${_.capitalize(name)}`]: async (id) => {
       let url = baseUrl
-      if (id) url = `${baseUrl}/${url}`
+      if (id) url = `${baseUrl}/${id}`
       const request = await axios.get(url, { headers: headers() })
       return await request.data
     },

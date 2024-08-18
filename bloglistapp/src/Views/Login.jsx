@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import FormRow from './FormRow'
+import FormRow from '../components/FormRow'
 // Actions
 import { login, loggedInUser } from '../reducers/user'
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormRow from './FormRow'
+import FormRow from '../components/FormRow'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { createNewBlog } from '../reducers/blogs'

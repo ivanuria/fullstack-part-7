@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { setInitialBlogs } from "../reducers/blogs"
-import Blog from "./Blog"
+import Blog from "../components/Blog"
 
 const Blogs = () => {
   const dispatch = useDispatch()

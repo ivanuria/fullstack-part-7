@@ -14,6 +14,13 @@ export const setInitialUsers = () => {
   }
 }
 
+export const setUser = (id) => {
+  return async dispatch => {
+    const initialUsers = await readUser(id)
+    dispatch(setUsers([initialUsers]))
+  }
+}
+
 export const createNewUser = (newUser) => {
   return async dispatch => {
     const savedUser = await createUser(newUser)
