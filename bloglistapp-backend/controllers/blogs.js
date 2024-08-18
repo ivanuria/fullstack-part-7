@@ -36,9 +36,7 @@ blogsRoutes.post('/', middleware.restricted, async (request, response) => {
       username: 1,
       name: 1,
     },
-  ).populate('comments', {
-    comment: 1
-  })
+  ).populate('comments')
 
   response.status(201).json(finalBlog)
 })
@@ -86,9 +84,7 @@ blogsRoutes.put('/:id', async (request, response) => {
   ).populate('user', {
     username: 1,
     name: 1,
-  }).populate('comments', {
-    comment: 1
-  })
+  }).populate('comments')
 
   response.status(200).json(newBlog)
 })
