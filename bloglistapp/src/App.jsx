@@ -46,10 +46,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>Blogs app</h1>
       <Notifications />
       <nav>
-        <menu>
+        <menu style={{ listStyleType: 'none', display: 'flex', flexFlow: 'row wrap', gap: 16 }}>
           <li>
             <Link to='/'>Home</Link>
           </li>
@@ -76,7 +75,7 @@ const App = () => {
           )}
         </menu>
       </nav>
-
+      <h1>Blogs app</h1>
       <Routes>
         <Route
           path='/'
