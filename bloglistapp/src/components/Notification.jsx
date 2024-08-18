@@ -8,9 +8,8 @@ const Notifications = () => {
   const notifications = useSelector(state => state.notifications)
   const style = {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0
+    bottom: '1rem',
+    right: '1rem'
   }
   console.log('Notifications', notifications)
   return (

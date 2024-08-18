@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route, Link, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 // Components
 import Blogs from './Views/Blogs.jsx'
 import Blog from './Views/Blog.jsx'
+import Header from './components/Header'
 import Login from './Views/Login.jsx'
 import NewBlog from './Views/NewBlog.jsx'
 import Notifications from './components/Notification.jsx'
@@ -16,7 +17,11 @@ import { setInitialUsers } from './reducers/users.js'
 import { setInitialBlogs } from './reducers/blogs.js'
 import { loggedInUser } from './reducers/user.js'
 //MUI
-import { Container } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
+import {
+  Box,
+  Container
+} from '@mui/material'
 
 const initialNotifications = [
   {
@@ -41,49 +46,15 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = () => {
-    dispatch(logout())
-    dispatch(setNotification('Correctly Logged Out', {level: 'success'} ))
-  }
-
   return (
-    <div>
+    <>
+      <CssBaseline />
       <Notifications />
-      <header>
+      <Header />
+      <Box
+        component='main'
+      >
         <Container>
-        <nav>
-          <menu style={{ listStyleType: 'none', display: 'flex', flexFlow: 'row wrap', gap: 16 }}>
-            <li>
-              <Link to='/'>Home</Link>
-            </li>
-            <li>
-              <Link to='/blogs'>Blogs</Link>
-            </li>
-            <li>
-              <Link to='/blogs/new'>Add New Blog</Link>
-            </li>
-            <li>
-              <Link to='/users'>Users</Link>
-            </li>
-            {user ? (
-              <li>
-                <b>{user.name}</b> logged in{' '}
-                <button style={{ marginLeft: '1ch' }} onClick={handleLogout}>
-                  Logout
-                </button>
-              </li>
-            ) : (
-              <li>
-                <Link to='/users'>Login</Link>
-              </li>
-            )}
-          </menu>
-        </nav>
-      </Container>
-      </header>
-      <main>
-        <Container>
-          <h1>Blogs app</h1>
           <Routes>
             <Route
               path='/'
@@ -125,8 +96,8 @@ const App = () => {
             <Route path='/login' element={<Login />} />
           </Routes>
         </Container>
-      </main>
-    </div>
+      </Box>
+    </>
   )
 }
 
