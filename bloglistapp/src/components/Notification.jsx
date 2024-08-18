@@ -1,74 +1,33 @@
 import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import { deleteNotification } from '../reducers/notifications'
 
-const Notification = ({ message, level = 'info', onClick = () => null }) => {
-  let style = {
-    display: 'none',
-    padding: '1rem',
-    marginBlock: '1rem',
-    width: 'fit-content',
-    border: '1px solid currentcolor',
-    color: 'black',
-    borderRadius: '.5rem',
-  }
-
-  if (level === 'info' && message !== '') {
-    style = {
-      ...style,
-      display: 'block',
-      color: 'green',
-    }
-  }
-
-  if (level === 'alert' && message !== '') {
-    style = {
-      ...style,
-      display: 'block',
-      color: 'orange',
-    }
-  }
-
-  if (level === 'error' && message !== '') {
-    style = {
-      ...style,
-      display: 'block',
-      color: 'red',
-    }
-  }
-  return (
-    <div
-      className='notification'
-      data-level={level}
-      style={style}
-      onClick={onClick}
-    >
-      {message}
-    </div>
-  )
-}
+import { Container, Alert } from '@mui/material'
 
 const Notifications = () => {
   const dispatch = useDispatch()
   const notifications = useSelector(state => state.notifications)
+  const style = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0
+  }
   console.log('Notifications', notifications)
   return (
-    <div className='notifications'>
-      {notifications.map(notification => (
-        <Notification
-          key={notification.id}
-          {...notification}
-          onClick={() => dispatch(deleteNotification(notification.id))}
-        />
-      ))}
+    <div className='notifications' style={style}>
+      <Container>
+        {notifications.map(notification => (
+          <Alert
+            key={notification.id}
+            severity={notification.level}
+            onClick={() => dispatch(deleteNotification(notification.id))}
+          >
+            {notification.message}
+          </Alert>
+        ))}
+      </Container>
     </div>
   )
-}
-
-Notification.propTypes = {
-  message: PropTypes.string,
-  level: PropTypes.string,
-  onClick: PropTypes.func,
 }
 
 export default Notifications

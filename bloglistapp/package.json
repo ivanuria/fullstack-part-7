@@ -13,6 +13,9 @@
     "testcoverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.4.0",
     "lodash": "^4.17.21",
