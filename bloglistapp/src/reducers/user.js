@@ -2,22 +2,26 @@ import { createSlice } from "@reduxjs/toolkit"
 import loginService from '../services/login'
 import { setNotification } from '../reducers/notifications'
 
+export const loggedInUser = () => {
+  let lsUser = window.localStorage.getItem('bau')
+  if (lsUser) {
+    lsUser = JSON.parse(lsUser)
+    const expiresAt = new Date(lsUser.expiresAt)
+    const now = new Date()
+    if (expiresAt >= now) {
+      return lsUser
+    } else {
+      window.localStorage.removeItem('bau')
+    }
+  }
+}
+
 const userSlice = createSlice({
   name: ['user'],
   initialState: null,
   reducers: {
     getLoggedInUser () {
-      let lsUser = window.localStorage.getItem('bau')
-      if (lsUser) {
-        lsUser = JSON.parse(lsUser)
-        const expiresAt = new Date(lsUser.expiresAt)
-        const now = new Date()
-        if (expiresAt >= now) {
-          return lsUser
-        } else {
-          window.localStorage.removeItem('bau')
-        }
-      }
+      return loggedInUser()
     },
     logout () {
       window.localStorage.removeItem('bau')

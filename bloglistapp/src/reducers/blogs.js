@@ -1,43 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
-import blogService from '../services/blogs'
+import crudService from '../services/crud'
+import crudSlice from './crudSlice'
 
-const blogsSlice = createSlice({
-  name: 'blogs',
-  initialState: [],
-  reducers: {
-    setBlogs(state, action) {
-      return action.payload
-    },
-    createBlog(state, action) {
-      state.push(action.payload)
-    },
-    deleteBlog(state, action) {
-      return state.filter(s => s.id.toString() !== action.payload.toString())
-    },
-    updateBlog(state, action) {
-      return state.map(s =>
-        s.id.toString() !== action.payload.toString() ? s : action.payload,
-      )
-    },
-  },
-})
+const blogsSlice = crudSlice('blogs', [])
+const { createBlog, readBlog, updateBlog, deleteBlog } = crudService('blog', '/api/blogs')
 
-export const { setBlogs, createBlog, deleteBlog, updateBlog } =
+console.log('blogsSlice', blogsSlice)
+
+export const { setBlogs, createBlogs, deleteBlogs, updateBlogs } =
   blogsSlice.actions
 
 export const setInitialBlogs = () => {
   return async dispatch => {
-    const initialBlogs = await blogService.getAll()
+    const initialBlogs = await readBlog()
     dispatch(setBlogs(initialBlogs))
   }
 }
 
-export const createNewBlog = (newBlog, user) => {
+export const createNewBlog = (newBlog) => {
   return async dispatch => {
-    const savedBlog = await blogService.newBlog(newBlog, user)
+    const savedBlog = await createBlog(newBlog)
     if (savedBlog) {
       dispatch(
-        createBlog({
+        createBlogs({
           ...savedBlog,
           user: { id: user.id, name: user.name, username: user.username },
         }),
@@ -48,23 +32,24 @@ export const createNewBlog = (newBlog, user) => {
 
 export const likeBlog = blog => {
   return async dispatch => {
-    const savedBlog = await blogService.updateBlog(blog.id, {
+    const savedBlog = await updateBlog(blog.id, {
       ...blog,
       likes: blog.likes + 1,
+      user: blog.user.id
     })
-    dispatch(updateBlog(savedBlog))
+    dispatch(updateBlogs(savedBlog))
   }
 }
 
-export const removeBlog = (id, user) => {
+export const removeBlog = (id) => {
   return async dispatch => {
     try {
-      await blogService.deleteBlog(id, user)
+      await deleteBlog(id)
     } catch (error) {
       console.log(error.message)
       throw error
     }
-    dispatch(deleteBlog(id))
+    dispatch(deleteBlogs(id))
   }
 }
 
