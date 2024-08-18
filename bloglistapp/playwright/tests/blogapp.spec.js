@@ -106,6 +106,7 @@ describe('BlogApp', () => {
           'Lusaint',
           'https://open.spotify.com/intl-es/track/5h4yGrTsP8frtJ080nxN5s?si=f68cc7e43e434a20',
         )
+        await page.getByText(/Dreams - Acoustic/)
       })
 
       test('like is summing up', async ({ page }) => {
@@ -194,7 +195,8 @@ describe('BlogApp', () => {
       test('arranged posts by likes', async ({ page }) => {
         const blogs = await page.getByTestId('blog-item')
         let count = 1
-        for (const item of await blogs.all()) {
+        const allBlogs = await blogs.all()
+        for (const item of allBlogs) {
           await item.getByText(/view/i).click()
           for (let i = 0; i < count; i++) {
             await item.getByRole('button').filter({ hasText: /like/i }).click()
