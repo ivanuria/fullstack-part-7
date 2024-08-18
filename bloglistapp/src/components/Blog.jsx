@@ -19,18 +19,14 @@ const Blog = ({ blog, ...props }) => {
     setThinking(false)
   }
 
+  console.log(blog)
+
   return (
     <div
       data-testid='blog-item'
-      style={{
-        padding: '1rem',
-        border: '1px solid gray',
-        borderRadius: '1rem',
-        marginBlock: '1rem',
-      }}
       {...props}
     >
-      <h1 className='blog__title-author' style={{ marginRight: '1ch' }}>
+      <h1 className='blog__title-author'>
         <b>{blog.title}</b> {blog.author}
       </h1>
         <br />
@@ -43,7 +39,7 @@ const Blog = ({ blog, ...props }) => {
           {blog.url}
         </a>
         <br />
-        <span className='blog__likes' style={{ marginRight: '1ch' }}>
+        <span className='blog__likes'>
           Likes: {likes}
         </span>
         <button
@@ -65,6 +61,13 @@ const Blog = ({ blog, ...props }) => {
             Delete Blog
           </button>
         ) : null}
+        <div>
+          <ul>
+            {blog.comments.map(comment =>
+              <li key={comment.id}>{ comment.content }</li>
+            )}
+          </ul>
+        </div>
     </div>
   )
 }

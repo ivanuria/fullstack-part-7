@@ -2,7 +2,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { loggedInUser } from '../reducers/user'
 
-const headers = () => {
+export const headers = () => {
   const user = loggedInUser()
   if (!user) return null
   return {
