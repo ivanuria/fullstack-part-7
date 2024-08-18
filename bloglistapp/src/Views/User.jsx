@@ -1,7 +1,10 @@
 import { useSelector } from 'react-redux'
-import { useMatch, useLocation } from 'react-router-dom'
+import { useMatch, useLocation, useNavigate } from 'react-router-dom'
+import { loggedInUser } from '../reducers/user'
 
 const User = () => {
+  const navigate = useNavigate()
+  const loggedUser = loggedInUser()
   const location = useLocation()
   const root = location.pathname.replace(/([a-zA-Z0-9\-_]*)$/, '')
   const match = useMatch(`${root}:id`)
@@ -12,12 +15,16 @@ const User = () => {
     return null
   }
 
+  if (!loggedUser) {
+    navigate(`/login?redirect=${location.pathname}`)
+  }
+
   return (
     <>
       <h1>{user.name}</h1>
       <ul>
         {user.blogs.map(blog => (
-          <li>{blog.title}</li>
+          <li key={blog.id}><a href={`/blogs/${blog.id}`}>{blog.title}</a></li>
         ))}
       </ul>
     </>

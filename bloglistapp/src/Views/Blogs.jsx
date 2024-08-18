@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInitialBlogs } from '../reducers/blogs'
-import Blog from '../components/Blog'
+
+const Blog = ({ blog }) => {
+  return (
+    <tr>
+      <td><a href={`/blogs/${blog.id}`}>{ blog.title }</a></td>
+      <td>{ blog.author }</td>
+      <td>{ blog.likes }</td>
+    </tr>
+  )
+}
 
 const Blogs = () => {
   const dispatch = useDispatch()
@@ -31,9 +40,21 @@ const Blogs = () => {
           ? 'from lowest to highest'
           : 'from highest to lowest'}
       </button>
-      {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Likes</th>
+          </tr>
+        </thead>
+        <tbody>
+        {blogs.map(blog => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
+        </tbody>
+      </table>
+
     </>
   )
 }

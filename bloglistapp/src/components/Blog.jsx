@@ -1,4 +1,3 @@
-import Togglable from './Togglable'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,10 +30,9 @@ const Blog = ({ blog, ...props }) => {
       }}
       {...props}
     >
-      <span className='blog__title-author' style={{ marginRight: '1ch' }}>
+      <h1 className='blog__title-author' style={{ marginRight: '1ch' }}>
         <b>{blog.title}</b> {blog.author}
-      </span>
-      <Togglable buttonLabel='View' reverse={true}>
+      </h1>
         <br />
         <a
           className='blog__url'
@@ -67,7 +65,6 @@ const Blog = ({ blog, ...props }) => {
             Delete Blog
           </button>
         ) : null}
-      </Togglable>
     </div>
   )
 }

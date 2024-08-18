@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, Route, Link, Navigate, useMatch } from 'react-router-dom'
+import { Routes, Route, Link, Navigate } from 'react-router-dom'
 // Components
 import Blogs from './Views/Blogs.jsx'
+import Blog from './Views/Blog.jsx'
 import Login from './Views/Login.jsx'
 import NewBlog from './Views/NewBlog.jsx'
 import Notifications from './components/Notification.jsx'
@@ -12,6 +13,8 @@ import User from './Views/User.jsx'
 import { setNotification } from './reducers/notifications.js'
 import { getLoggedInUser, logout } from './reducers/user.js'
 import { setInitialUsers } from './reducers/users.js'
+import { setInitialBlogs } from './reducers/blogs.js'
+import { loggedInUser } from './reducers/user.js'
 
 const initialNotifications = [
   {
@@ -21,15 +24,13 @@ const initialNotifications = [
 
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
-  const users = useSelector(state => state.users)
-  console.log('appUsers', users)
-  const matchUsers = useMatch('/users/:id')
-  const matchUsersId = matchUsers && matchUsers.params && matchUsers.params.id
+  const user = loggedInUser()
+  useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(setInitialUsers())
     dispatch(getLoggedInUser())
+    dispatch(setInitialBlogs())
     for (const notification of initialNotifications) {
       console.log('set')
       dispatch(
@@ -94,6 +95,10 @@ const App = () => {
           }
         />
         <Route
+          path='/blogs/:id'
+          element={<Blog />}
+        />
+        <Route
           path='/blogs/new'
           element={
             user ? (
@@ -109,7 +114,7 @@ const App = () => {
             user ? <Users /> : <Navigate replace to='/login?redirect=/users' />
           }
         />
-        <Route path='/users/:id' element={<User id={matchUsersId} />} />
+        <Route path='/users/:id' element={<User />} />
         <Route path='/login' element={<Login />} />
       </Routes>
     </div>
