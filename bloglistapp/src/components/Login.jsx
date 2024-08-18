@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import FormRow from './FormRow'
 // Actions
-import { login } from '../reducers/user'
+import { login, loggedInUser } from '../reducers/user'
 
 const Login = () => {
   const dispatch = useDispatch()
+  const [searchParams] = useSearchParams('redirect')
+  const navigate = useNavigate()
+  const redirect = searchParams.get('redirect')
+  console.log('redirect to', redirect || '/')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -15,6 +20,10 @@ const Login = () => {
     setUsername('')
     setPassword('')
   }
+
+  const user = loggedInUser()
+
+  if (user) return navigate(redirect || '/')
 
   return (
     <form

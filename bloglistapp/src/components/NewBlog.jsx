@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import FormRow from './FormRow'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { createNewBlog } from '../reducers/blogs'
+import { setNotification } from '../reducers/notifications'
 
-const NewBlog = ({ addToBlogs, ...props }) => {
+const NewBlog = ({ ...props }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -12,15 +16,17 @@ const NewBlog = ({ addToBlogs, ...props }) => {
   const addNewBlog = async event => {
     console.log('AddNewBlog')
     event.preventDefault()
-    addToBlogs({
+    dispatch(createNewBlog({
       title,
       author,
       url,
       user,
-    })
+    }))
+    dispatch(setNotification(`'${title}' correctly added`))
     setTitle('')
     setAuthor('')
     setUrl('')
+    navigate('/blogs')
   }
 
   return (
@@ -69,10 +75,6 @@ const NewBlog = ({ addToBlogs, ...props }) => {
       </form>
     </div>
   )
-}
-
-NewBlog.propTypes = {
-  addToBlogs: PropTypes.func.isRequired
 }
 
 export default NewBlog
