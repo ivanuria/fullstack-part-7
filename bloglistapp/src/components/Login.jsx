@@ -16,9 +16,9 @@ const Login = () => {
 
   const doLogin = async event => {
     event.preventDefault()
-    dispatch(login(username, password))
     setUsername('')
     setPassword('')
+    dispatch(login(username, password))
   }
 
   const user = loggedInUser()
