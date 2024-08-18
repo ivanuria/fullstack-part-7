@@ -3,7 +3,10 @@ import crudService from '../services/crud'
 
 const usersSlice = crudSlice('users', [])
 
-const { createUser, readUser, updateUser, deleteUser } = crudService('user', '/api/users')
+const { createUser, readUser, updateUser, deleteUser } = crudService(
+  'user',
+  '/api/users',
+)
 export const { setUsers, createUsers, deleteUsers, updateUsers } =
   usersSlice.actions
 
@@ -14,14 +17,14 @@ export const setInitialUsers = () => {
   }
 }
 
-export const setUser = (id) => {
+export const setUser = id => {
   return async dispatch => {
     const initialUsers = await readUser(id)
     dispatch(setUsers([initialUsers]))
   }
 }
 
-export const createNewUser = (newUser) => {
+export const createNewUser = newUser => {
   return async dispatch => {
     const savedUser = await createUser(newUser)
     if (savedUser) {
@@ -34,7 +37,7 @@ export const createNewUser = (newUser) => {
   }
 }
 
-export const removeUser = (id) => {
+export const removeUser = id => {
   return async dispatch => {
     try {
       await deleteUser(id)
@@ -46,7 +49,7 @@ export const removeUser = (id) => {
   }
 }
 
-export const patchUser = (id) => {
+export const patchUser = id => {
   return async dispatch => {
     try {
       await updateUser(id)

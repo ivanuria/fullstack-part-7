@@ -16,12 +16,14 @@ const NewBlog = ({ ...props }) => {
   const addNewBlog = async event => {
     console.log('AddNewBlog')
     event.preventDefault()
-    dispatch(createNewBlog({
-      title,
-      author,
-      url,
-      user,
-    }))
+    dispatch(
+      createNewBlog({
+        title,
+        author,
+        url,
+        user,
+      }),
+    )
     dispatch(setNotification(`'${title}' correctly added`))
     setTitle('')
     setAuthor('')

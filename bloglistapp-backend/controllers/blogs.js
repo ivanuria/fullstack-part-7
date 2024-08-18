@@ -29,10 +29,13 @@ blogsRoutes.post('/', middleware.restricted, async (request, response) => {
     blogs: user.blogs.concat(result._id.toString()),
   })
 
-  const finalBlog = await Blog.findById(result._id.toString()).populate('user', {
-    username: 1,
-    name: 1,
-  })
+  const finalBlog = await Blog.findById(result._id.toString()).populate(
+    'user',
+    {
+      username: 1,
+      name: 1,
+    },
+  )
 
   response.status(201).json(finalBlog)
 })

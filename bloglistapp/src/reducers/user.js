@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 import loginService from '../services/login'
 import { setNotification } from '../reducers/notifications'
 
@@ -20,18 +20,18 @@ const userSlice = createSlice({
   name: ['user'],
   initialState: null,
   reducers: {
-    getLoggedInUser () {
+    getLoggedInUser() {
       return loggedInUser()
     },
-    logout () {
+    logout() {
       window.localStorage.removeItem('bau')
       return null
     },
-    saveLogin (state, action) {
+    saveLogin(state, action) {
       window.localStorage.setItem('bau', JSON.stringify(action.payload))
       return action.payload
-    }
-  }
+    },
+  },
 })
 
 export const { getLoggedInUser, logout, saveLogin } = userSlice.actions

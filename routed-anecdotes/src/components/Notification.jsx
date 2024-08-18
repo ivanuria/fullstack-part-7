@@ -1,24 +1,24 @@
-import propTypes from 'prop-types'
+import propTypes from "prop-types";
 
 const Notification = ({ notification }) => {
   const style = {
-    padding: '.5rem 1rem',
-    border: '2px solid currentcolor',
-    color: 'green',
-    borderRadius: '1rem'
-  }
-  if (!notification || notification === '') {
-    return null
+    padding: ".5rem 1rem",
+    border: "2px solid currentcolor",
+    color: "green",
+    borderRadius: "1rem",
+  };
+  if (!notification || notification === "") {
+    return null;
   }
   return (
-    <div style={ style } className='notification'>
-      { notification }
+    <div style={style} className="notification">
+      {notification}
     </div>
-  )
-}
+  );
+};
 
 Notification.propTypes = {
-  notification: propTypes.string
-}
+  notification: propTypes.string,
+};
 
-export default Notification
+export default Notification;

@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
 import { likeBlog, removeBlog } from '../reducers/blogs'
 
-const Blog = ({
-  blog,
-  ...props
-}) => {
+const Blog = ({ blog, ...props }) => {
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [thinking, setThinking] = useState(false)
@@ -76,7 +73,7 @@ const Blog = ({
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired
+  blog: PropTypes.object.isRequired,
 }
 
 export default Blog

@@ -14,12 +14,12 @@ const User = () => {
 
   return (
     <>
-    <h1>{ user.name }</h1>
-    <ul>
-      { user.blogs.map(blog =>
-        <li>{ blog.title }</li>
-      )}
-    </ul>
+      <h1>{user.name}</h1>
+      <ul>
+        {user.blogs.map(blog => (
+          <li>{blog.title}</li>
+        ))}
+      </ul>
     </>
   )
 }

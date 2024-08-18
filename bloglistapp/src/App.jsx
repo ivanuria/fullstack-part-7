@@ -47,31 +47,71 @@ const App = () => {
     <div>
       <h1>Blogs app</h1>
       <Notifications />
-        <nav>
-          <menu>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/blogs'>Blogs</Link></li>
-            <li><Link to='/blogs/new' >Add New Blog</Link></li>
-            <li><Link to='/users'>Users</Link></li>
-            {
-              user
-                ? (<li><b>{user.name}</b> logged in{' '}
-                  <button style={{ marginLeft: '1ch' }} onClick={handleLogout}>
-                    Logout
-                  </button></li>)
-                :<li><Link to='/users'>Login</Link></li>
-            }
-          </menu>
-        </nav>
+      <nav>
+        <menu>
+          <li>
+            <Link to='/'>Home</Link>
+          </li>
+          <li>
+            <Link to='/blogs'>Blogs</Link>
+          </li>
+          <li>
+            <Link to='/blogs/new'>Add New Blog</Link>
+          </li>
+          <li>
+            <Link to='/users'>Users</Link>
+          </li>
+          {user ? (
+            <li>
+              <b>{user.name}</b> logged in{' '}
+              <button style={{ marginLeft: '1ch' }} onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          ) : (
+            <li>
+              <Link to='/users'>Login</Link>
+            </li>
+          )}
+        </menu>
+      </nav>
 
-        <Routes>
-          <Route path='/' element={user ? <Navigate replace to='/blogs' /> : <Navigate replace to='/login?redirect=/' />} />
-          <Route path='/blogs' element={user ? <Blogs /> : <Navigate replace to='/login?redirect=/blogs' />} />
-          <Route path='/blogs/new' element={user ? <NewBlog /> : <Navigate replace to='/login?redirect=/blogs/new' />} />
-          <Route path='/users' element={user ? <Users /> : <Navigate replace to='/login?redirect=/users' />} />
-          <Route path='/users/:id' element={<User id={matchUsersId} />} />
-          <Route path='/login' element={<Login />} />
-        </Routes>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            user ? (
+              <Navigate replace to='/blogs' />
+            ) : (
+              <Navigate replace to='/login?redirect=/' />
+            )
+          }
+        />
+        <Route
+          path='/blogs'
+          element={
+            user ? <Blogs /> : <Navigate replace to='/login?redirect=/blogs' />
+          }
+        />
+        <Route
+          path='/blogs/new'
+          element={
+            user ? (
+              <NewBlog />
+            ) : (
+              <Navigate replace to='/login?redirect=/blogs/new' />
+            )
+          }
+        />
+        <Route
+          path='/users'
+          element={
+            user ? <Users /> : <Navigate replace to='/login?redirect=/users' />
+          }
+        />
+        <Route path='/users/:id' element={<User id={matchUsersId} />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </div>
   )
 }

@@ -1,13 +1,9 @@
-import propTypes from 'prop-types'
+import propTypes from "prop-types";
 
-const Container = ({ children }) => (
-  <div className='container'>
-    { children }
-  </div>
-)
+const Container = ({ children }) => <div className="container">{children}</div>;
 
 Container.propTypes = {
-  children: propTypes.any.isRequired
-}
+  children: propTypes.any.isRequired,
+};
 
-export default Container
+export default Container;

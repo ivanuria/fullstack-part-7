@@ -3,7 +3,10 @@ import crudSlice from './crudSlice'
 import { loggedInUser } from '../reducers/user'
 
 const blogsSlice = crudSlice('blogs', [])
-const { createBlog, readBlog, updateBlog, deleteBlog } = crudService('blog', '/api/blogs')
+const { createBlog, readBlog, updateBlog, deleteBlog } = crudService(
+  'blog',
+  '/api/blogs',
+)
 export const { setBlogs, createBlogs, deleteBlogs, updateBlogs } =
   blogsSlice.actions
 
@@ -14,7 +17,7 @@ export const setInitialBlogs = () => {
   }
 }
 
-export const createNewBlog = (newBlog) => {
+export const createNewBlog = newBlog => {
   return async dispatch => {
     const user = loggedInUser()
     const savedBlog = await createBlog(newBlog)
@@ -35,13 +38,13 @@ export const likeBlog = blog => {
     const savedBlog = await updateBlog(blog.id, {
       ...blog,
       likes: blog.likes + 1,
-      user: blog.user.id
+      user: blog.user.id,
     })
     dispatch(updateBlogs(savedBlog))
   }
 }
 
-export const removeBlog = (id) => {
+export const removeBlog = id => {
   return async dispatch => {
     try {
       await deleteBlog(id)

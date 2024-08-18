@@ -1,14 +1,12 @@
-import { useSelector } from "react-redux"
+import { useSelector } from 'react-redux'
 
 const User = ({ user }) => {
   return (
     <tr>
       <td>
-        <a href={`/users/${user.id}`}>{ user.name }</a>
+        <a href={`/users/${user.id}`}>{user.name}</a>
       </td>
-      <td>
-        { user.blogs.length }
-      </td>
+      <td>{user.blogs.length}</td>
     </tr>
   )
 }
@@ -27,7 +25,9 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => <User key={user.id} user={user} />)}
+          {users.map(user => (
+            <User key={user.id} user={user} />
+          ))}
         </tbody>
       </table>
     </>
