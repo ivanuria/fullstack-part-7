@@ -64,7 +64,7 @@ const Blog = ({
         {username === blog.user.username ? (
           <button
             className='blog__delete'
-            onClick={e => dispatch(removeBlog(blog.id, user))}
+            onClick={e => dispatch(removeBlog(blog.id))}
             style={{ marginBlock: '1rem' }}
           >
             Delete Blog

@@ -43,14 +43,16 @@ const App = () => {
   }
 
   const addToblogs = async newBlog => {
-    dispatch(createNewBlog(newBlog, user))
+    dispatch(createNewBlog(newBlog))
     dispatch(setNotification(`'${newBlog.title}' correctly added`))
     newBlogRef.current.toggleVisible()
   }
 
-  blogs.sort((a, b) => a.likes - b.likes)
-  if (sorted === 'higherFirst') {
-    blogs.reverse()
+  if (sorted) {
+    blogs.sort((a, b) => a.likes - b.likes)
+    if (sorted === 'higherFirst') {
+      blogs.reverse()
+    }
   }
 
   const handleSortBlogs = () => {

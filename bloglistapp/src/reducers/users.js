@@ -1,21 +1,22 @@
 import crudSlice from './crudSlice'
-import blogService from '../services/blogs'
+import crudService from '../services/crud'
 
-const blogsSlice = crudSlice('users', [])
+const usersSlice = crudSlice('users', [])
 
+const { createUser, readUser, updateUser, deleteUser } = crudService('user', '/api/users')
 export const { setUsers, createUsers, deleteUsers, updateUsers } =
-  blogsSlice.actions
+  usersSlice.actions
 
 export const setInitialUsers = () => {
   return async dispatch => {
-    const initialUsers = await usersService.getAll()
+    const initialUsers = await readUser()
     dispatch(setUsers(initialUsers))
   }
 }
 
-export const createNewUser = (newUser, user) => {
+export const createNewUser = (newUser) => {
   return async dispatch => {
-    const savedUser = await userService.newBlog(newUser, user)
+    const savedUser = await createUser(newUser)
     if (savedUser) {
       dispatch(
         createUsers({
@@ -26,15 +27,27 @@ export const createNewUser = (newUser, user) => {
   }
 }
 
-export const removeUser = (id, user) => {
+export const removeUser = (id) => {
   return async dispatch => {
     try {
-      await blogService.deleteUser(id, user)
+      await deleteUser(id)
     } catch (error) {
       console.log(error.message)
       throw error
     }
     dispatch(deleteUsers(id))
+  }
+}
+
+export const patchUser = (id) => {
+  return async dispatch => {
+    try {
+      await updateUser(id)
+    } catch (error) {
+      console.log(error.message)
+      throw error
+    }
+    dispatch(updateUsers(id))
   }
 }
 

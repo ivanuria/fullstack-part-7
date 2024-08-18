@@ -17,7 +17,7 @@ const crudSlice = (name, initialState) =>
       },
       [`update${_.capitalize(name)}`]: (state, action) => {
         return state.map(s =>
-          s.id.toString() !== action.payload.toString() ? s : action.payload,
+          s.id.toString() !== action.payload.id.toString() ? s : action.payload,
         )
       },
     },
