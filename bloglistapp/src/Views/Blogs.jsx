@@ -85,7 +85,8 @@ const Blogs = () => {
         sx={{
           position: 'fixed',
           bottom: '1rem',
-          right: '50%',
+          left: '50%',
+          transform: 'translateX(-50%)'
         }}
       >
         <AddIcon color='primary.contrastText' />
