@@ -35,8 +35,8 @@ const App = () => {
   useSelector(state => state.user)
 
   useEffect(() => {
-    dispatch(setInitialUsers())
     dispatch(getLoggedInUser())
+    dispatch(setInitialUsers())
     dispatch(setInitialBlogs())
     for (const notification of initialNotifications) {
       console.log('set')
