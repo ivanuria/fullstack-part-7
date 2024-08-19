@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material'
 import { SwapVert } from '@mui/icons-material'
+import H2 from '../components/H2'
 
 const Blog = ({ blog }) => {
   return (
@@ -48,16 +49,7 @@ const Blogs = () => {
 
   return (
     <Box>
-      <Typography
-        component='h2'
-        variant='h4'
-        sx={{
-          textAlign: 'center',
-          marginBlockEnd: '1em'
-        }}
-      >
-        Blogs List
-      </Typography>
+      <H2>Blogs List</H2>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

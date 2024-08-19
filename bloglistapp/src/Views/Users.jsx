@@ -1,13 +1,28 @@
 import { useSelector } from 'react-redux'
+import H2 from '../components/H2'
+// MUI
+import {
+  Paper,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography
+} from '@mui/material'
 
 const User = ({ user }) => {
   return (
-    <tr>
-      <td>
-        <a href={`/users/${user.id}`}>{user.name}</a>
-      </td>
-      <td>{user.blogs.length}</td>
-    </tr>
+    <TableRow>
+      <TableCell>
+        <Typography
+          component='a'
+          href={`/users/${user.id}`}
+        >{user.name}</Typography>
+      </TableCell>
+      <TableCell>{user.blogs.length}</TableCell>
+    </TableRow>
   )
 }
 
@@ -16,20 +31,22 @@ const Users = () => {
 
   return (
     <>
-      <h2>Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style={{ textAlign: 'left' }}>User</th>
-            <th>Blogs Created</th>
-          </tr>
-        </thead>
-        <tbody>
+      <H2>Users</H2>
+      <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell style={{ textAlign: 'left' }}>User</TableCell>
+            <TableCell>Blogs Created</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {users.map(user => (
             <User key={user.id} user={user} />
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
+      </TableContainer>
     </>
   )
 }
