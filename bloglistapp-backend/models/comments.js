@@ -5,6 +5,10 @@ commentSchema = new Schema({
   content: {
     type: String,
     minLength: 3
+  },
+  blog: {
+    type: Schema.Types.ObjectId,
+    ref: 'Blog'
   }
 })
 

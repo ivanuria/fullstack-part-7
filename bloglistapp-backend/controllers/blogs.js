@@ -92,7 +92,7 @@ blogsRoutes.put('/:id', async (request, response) => {
 blogsRoutes.post('/:id/comments', async (request, response) => {
   const { content } = request.body
 
-  const newComment = new Comment({ content })
+  const newComment = new Comment({ content, blog: request.params.id })
   const savedComment = await newComment.save()
 
   const post = await Blog.findById(request.params.id)
