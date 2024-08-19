@@ -4,7 +4,8 @@ import {
   Box,
   Button,
   Menu,
-  MenuItem
+  MenuItem,
+  MenuList
 } from '@mui/material'
 
 const MainMenuItem = ({ navItem }) => {
@@ -49,12 +50,13 @@ const MainMenuItem = ({ navItem }) => {
   }
 }
 
-const MainMenu = ({ navItems }) => {
+const MainMenu = ({ navItems, ...props }) => {
   return (
     <Box
       component='nav'
+      {...props}
     >
-      <Box
+      <MenuList
         component='menu'
         sx={{
           paddingInlineStart: '2ch',
@@ -65,7 +67,7 @@ const MainMenu = ({ navItems }) => {
         {navItems.map(navItem =>
           <MainMenuItem key={navItem.text} navItem={navItem} />
         )}
-      </Box>
+      </MenuList>
     </Box>
   )
 }

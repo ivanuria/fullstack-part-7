@@ -19,7 +19,7 @@ const Notifications = () => {
           <Alert
             key={notification.id}
             severity={notification.level}
-            onClick={() => dispatch(deleteNotification(notification.id))}
+            onClose={() => dispatch(deleteNotification(notification.id))}
           >
             {notification.message}
           </Alert>
