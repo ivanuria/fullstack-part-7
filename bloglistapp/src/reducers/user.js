@@ -42,7 +42,7 @@ export const login = (username, password) => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('bau', JSON.stringify(user))
       dispatch(saveLogin(user))
-      dispatch(setNotification('Correctly Logged In'), { level: 'success' })
+      dispatch(setNotification('Correctly Logged In', { level: 'success' }))
     } catch (error) {
       dispatch(
         setNotification('Invalid username and password', { level: 'error' }),
