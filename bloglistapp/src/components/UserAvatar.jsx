@@ -77,10 +77,16 @@ const UserAvatar = () => {
   }
   return (
     <>
-    <Avatar
-      {...stringAvatar(user.name)}
+    <Button
+      variant='text'
       onClick={(e) => setAnchorEl(e.currentTarget)}
-    />
+      sx={{
+        minWidth: 'fit-content',
+        p: 0
+      }}
+    >
+    <Avatar {...stringAvatar(user.name)} />
+    </Button>
     <Menu
         anchorEl={anchorEl}
         open={!!anchorEl}

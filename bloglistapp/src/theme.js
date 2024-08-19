@@ -6,10 +6,10 @@ import '@fontsource/love-ya-like-a-sister'
 let theme = createTheme({
   palette: {
     primary: {
-      main: 'hsl(280, 100%, 50%)'
+      main: 'hsl(280, 50%, 50%)'
     },
     secondary: {
-      main: 'hsl(50, 100%, 75%)'
+      main: 'hsl(50, 50%, 75%)'
     }
   },
   typography: {
@@ -35,9 +35,20 @@ theme = createTheme(theme, {
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        '::-webkit-scrollbar': {
+          width: 10
+        },
+        '::-webkit-scrollbar-track': {
+          backgroundColor: theme.palette.primary.light,
+        },
+        '::-webkit-scrollbar-thumb': {
+          backgroundImage: `radial-gradient(circle at center, ${theme.palette.primary.dark} 50%, ${theme.palette.primary.main})`
+        },
+        '::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: theme.palette.primary.light
+        },
         body: {
-          backgroundColor: theme.palette.secondary.light,
-          boxSizing: 'border-box'
+          backgroundColor: theme.palette.secondary.light
         },
         'main a': {
           color: theme.palette.primary.light,

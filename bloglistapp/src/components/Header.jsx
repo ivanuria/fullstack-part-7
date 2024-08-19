@@ -1,20 +1,18 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 //MUI
 import {
   AppBar,
   Box,
   Button,
-  Drawer,
   Container,
   Toolbar,
   Typography,
 } from '@mui/material'
-import {
-  Menu as MenuIcon
-} from '@mui/icons-material'
 
 import MainMenu from './MainMenu.jsx'
 import UserAvatar from './UserAvatar.jsx'
+import MobileMenu from './MobileMenu.jsx'
 
 const Header = () => {
   const navItems = [
@@ -51,26 +49,7 @@ const Header = () => {
             justifyContent: 'space-between'
           }}
         >
-          <Button
-            variant='text'
-            color='inherit'
-            disableGutters={true}
-            sx={{
-              minWidth: 'fit-content',
-              px: 0,
-              display: {
-                sm: 'flex',
-                md: 'none'
-              }
-            }}
-          >
-            <MenuIcon
-              sx={{
-                width: 40,
-                height: 40
-              }}
-            />
-          </Button>
+          <MobileMenu navItems={navItems} />
           <Box
             sx={{
               display: 'flex',
@@ -102,7 +81,7 @@ const Header = () => {
               navItems={navItems}
               sx={{
                 display: {
-                  sm: 'none',
+                  xs: 'none',
                   md: 'flex'
                 }
               }}

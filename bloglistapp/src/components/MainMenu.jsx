@@ -5,7 +5,8 @@ import {
   Button,
   Menu,
   MenuItem,
-  MenuList
+  MenuList,
+  ButtonGroup
 } from '@mui/material'
 
 const MainMenuItem = ({ navItem }) => {
@@ -13,36 +14,39 @@ const MainMenuItem = ({ navItem }) => {
 
   if (navItem.to) {
     return (
-      <MenuItem
+      <Button
         component={ Link }
         color='inherit'
         to={navItem.to}
         sx={{
-          fontWeight: '700'
+          fontWeight: '700',
+          textTransform: 'unset'
         }}
       >
         {navItem.text}
-      </MenuItem>
+      </Button>
     )
   }
   if (navItem.submenu) {
     return (
       <>
-      <MenuItem
+      <Button
+        color='inherit'
         sx={{
-          fontWeight: '700'
+          fontWeight: '700',
+          textTransform: 'unset'
         }}
         onClick={(e) => setAnchorEl(e.currentTarget)}
       >
         {navItem.text}
-      </MenuItem>
+      </Button>
       <Menu
         anchorEl={anchorEl}
         open={!!anchorEl}
         onClose={() => setAnchorEl(null)}
       >
         {navItem.submenu.map(navItem =>
-          <MainMenuItem key={navItem.to} navItem={navItem} />
+          <MenuItem key={navItem.to}><MainMenuItem navItem={navItem} /></MenuItem>
         )}
       </Menu>
       </>
@@ -56,18 +60,20 @@ const MainMenu = ({ navItems, ...props }) => {
       component='nav'
       {...props}
     >
-      <MenuList
+      <ButtonGroup
+        variant='text'
         component='menu'
         sx={{
           paddingInlineStart: '2ch',
           display: 'flex',
-          listStyleType: 'none'
+          listStyleType: 'none',
+          gap: 2
         }}
       >
         {navItems.map(navItem =>
           <MainMenuItem key={navItem.text} navItem={navItem} />
         )}
-      </MenuList>
+      </ButtonGroup>
     </Box>
   )
 }
