@@ -5,6 +5,15 @@ import FormRow from '../components/FormRow'
 // Actions
 import { login, loggedInUser } from '../reducers/user'
 
+import {
+  Button,
+  FormGroup,
+  TextField,
+  Paper,
+} from '@mui/material'
+
+import H2 from '../components/H2'
+
 const Login = () => {
   const dispatch = useDispatch()
   const [searchParams] = useSearchParams('redirect')
@@ -26,39 +35,48 @@ const Login = () => {
   if (user) return navigate(redirect || '/')
 
   return (
-    <form
-      className='loginform'
-      id='loginform'
-      data-testid='loginform'
-      onSubmit={doLogin}
+    <>
+    <H2>Login</H2>
+    <Paper
+      sx={{
+        maxWidth: 400,
+        marginInline: 'auto'
+      }}
     >
-      <FormRow>
-        <label htmlFor='username' data-testid='username-label'>
-          Username:{' '}
-        </label>
-        <input
-          id='username'
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          aria-label='type in your username'
-          data-testid='username'
-        />
-      </FormRow>
-      <FormRow>
-        <label htmlFor='password' data-testid='password-label'>
-          Password:{' '}
-        </label>
-        <input
-          id='password'
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          aria-label='type in your password'
-          type='password'
-          data-testid='password'
-        />
-      </FormRow>
-      <input type='submit' value='Login' />
-    </form>
+      <form
+        className='loginform'
+        id='loginform'
+        data-testid='loginform'
+        onSubmit={doLogin}
+      >
+        <FormGroup
+          sx={{
+            gap: 2,
+            p: '1rem'
+          }}
+        >
+          <TextField
+            label='Username'
+            id='username'
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            aria-label='type in your username'
+            data-testid='username'
+          />
+          <TextField
+            label='Password'
+            id='password'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            aria-label='type in your password'
+            type='password'
+            data-testid='password'
+          />
+          <Button type='submit' variant='contained' size='large'>Login</Button>
+        </FormGroup>
+      </form>
+    </Paper>
+    </>
   )
 }
 

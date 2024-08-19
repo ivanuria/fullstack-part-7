@@ -6,7 +6,6 @@ import { createNewBlog } from '../reducers/blogs'
 import { setNotification } from '../reducers/notifications'
 //MUI
 import {
-  Box,
   Button,
   Paper,
   FormGroup,
@@ -94,7 +93,7 @@ const NewBlog = ({ ...props }) => {
             data-testid='new-blog-url'
             required
           />
-          <Button variant='contained' color='secondary' type='submit'>Create new</Button>
+          <Button variant='contained' color='secondary' type='submit' size='large'>Create new</Button>
           </FormGroup>
         </form>
       </Paper>

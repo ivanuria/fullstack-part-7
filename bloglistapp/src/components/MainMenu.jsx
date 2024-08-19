@@ -44,6 +44,7 @@ const MainMenuItem = ({ navItem }) => {
         anchorEl={anchorEl}
         open={!!anchorEl}
         onClose={() => setAnchorEl(null)}
+        onClick={() => setAnchorEl(null)}
       >
         {navItem.submenu.map(navItem =>
           <MenuItem key={navItem.to}><MainMenuItem navItem={navItem} /></MenuItem>
