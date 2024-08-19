@@ -4,8 +4,8 @@ import {
   Box,
   Button,
   Menu,
-  MenuItem,
   MenuList,
+  MenuItem,
   ButtonGroup
 } from '@mui/material'
 
@@ -15,7 +15,7 @@ const MainMenuItem = ({ navItem }) => {
   if (navItem.to) {
     return (
       <Button
-        component={ Link }
+        component={Link}
         color='inherit'
         to={navItem.to}
         sx={{
@@ -47,7 +47,11 @@ const MainMenuItem = ({ navItem }) => {
         onClick={() => setAnchorEl(null)}
       >
         {navItem.submenu.map(navItem =>
-          <MenuItem key={navItem.to}><MainMenuItem navItem={navItem} /></MenuItem>
+          <MenuItem
+            component={Link}
+            key={navItem.text}
+            to={navItem.to}
+          >{navItem.text}</MenuItem>
         )}
       </Menu>
       </>

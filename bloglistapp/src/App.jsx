@@ -56,6 +56,7 @@ const App = () => {
       <Header />
       <Box
         component='main'
+        id='main'
       >
         <Container>
             <Paper

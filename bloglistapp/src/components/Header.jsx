@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 //MUI
 import {
@@ -45,6 +44,20 @@ const Header = () => {
   ]
 
   return (
+    <>
+    <Button
+      href='#main'
+      variant='contained'
+      color='tertiary'
+      sx={{
+        position: 'fixed',
+        top: 8,
+        left: 8,
+      ':focus-visible': {
+          zIndex: '9999999'
+        }
+      }}
+    >Skip to content</Button>
     <AppBar position='sticky'>
       <Container>
         <Toolbar
@@ -98,7 +111,7 @@ const Header = () => {
         </Toolbar>
       </Container>
     </AppBar>
-
+    </>
   )
 }
 
