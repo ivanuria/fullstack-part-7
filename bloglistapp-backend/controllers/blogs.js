@@ -6,10 +6,12 @@ const middleware = require('../utils/middleware')
 const errors = require('../utils/errors')
 
 blogsRoutes.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user', {
-    username: 1,
-    name: 1,
-  }).populate('comments')
+  const blogs = await Blog.find({})
+    .populate('user', {
+      username: 1,
+      name: 1,
+    })
+    .populate('comments')
 
   response.json(blogs)
 })
@@ -30,22 +32,23 @@ blogsRoutes.post('/', middleware.restricted, async (request, response) => {
     blogs: user.blogs.concat(result._id.toString()),
   })
 
-  const finalBlog = await Blog.findById(result._id.toString()).populate(
-    'user',
-    {
+  const finalBlog = await Blog.findById(result._id.toString())
+    .populate('user', {
       username: 1,
       name: 1,
-    },
-  ).populate('comments')
+    })
+    .populate('comments')
 
   response.status(201).json(finalBlog)
 })
 
 blogsRoutes.get('/:id', async (request, response) => {
-  const blogPost = await Blog.findById(request.params.id).populate('user', {
-    username: 1,
-    name: 1,
-  }).populate('comments')
+  const blogPost = await Blog.findById(request.params.id)
+    .populate('user', {
+      username: 1,
+      name: 1,
+    })
+    .populate('comments')
   if (!blogPost) {
     return response.status(404).json({
       error: {
@@ -81,10 +84,12 @@ blogsRoutes.put('/:id', async (request, response) => {
     request.params.id,
     { title, author, url, likes, user },
     { new: true, runValidators: true, context: 'query' },
-  ).populate('user', {
-    username: 1,
-    name: 1,
-  }).populate('comments')
+  )
+    .populate('user', {
+      username: 1,
+      name: 1,
+    })
+    .populate('comments')
 
   response.status(200).json(newBlog)
 })
@@ -99,13 +104,17 @@ blogsRoutes.post('/:id/comments', async (request, response) => {
   const newBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     {
-      comments: post.comments.map(comment => comment.toString()).concat(savedComment._id.toString())
+      comments: post.comments
+        .map(comment => comment.toString())
+        .concat(savedComment._id.toString()),
     },
     { new: true, runValidators: true, context: 'query' },
-  ).populate('user', {
-    username: 1,
-    name: 1,
-  }).populate('comments')
+  )
+    .populate('user', {
+      username: 1,
+      name: 1,
+    })
+    .populate('comments')
 
   response.status(200).json(newBlog)
 })

@@ -19,12 +19,7 @@ import { setInitialBlogs } from './reducers/blogs.js'
 import { loggedInUser } from './reducers/user.js'
 //MUI
 import CssBaseline from '@mui/material/CssBaseline'
-import {
-  Box,
-  Container,
-  Paper
-} from '@mui/material'
-
+import { Box, Container, Paper } from '@mui/material'
 
 const initialNotifications = [
   {
@@ -54,33 +49,28 @@ const App = () => {
       <CssBaseline />
       <Notifications />
       <Header />
-      <Box
-        component='main'
-        id='main'
-      >
+      <Box component='main' id='main'>
         <Container>
-            <Paper
-              elevation={6}
-              sx={{
-                my: '1rem',
-                p: '2rem 1rem'
-              }}
-            >
+          <Paper
+            elevation={6}
+            sx={{
+              my: '1rem',
+              p: '2rem 1rem',
+            }}
+          >
             <Routes>
-              <Route
-                path='/'
-                element={<Home />}
-              />
+              <Route path='/' element={<Home />} />
               <Route
                 path='/blogs'
                 element={
-                  user ? <Blogs /> : <Navigate replace to='/login?redirect=/blogs' />
+                  user ? (
+                    <Blogs />
+                  ) : (
+                    <Navigate replace to='/login?redirect=/blogs' />
+                  )
                 }
               />
-              <Route
-                path='/blogs/:id'
-                element={<Blog />}
-              />
+              <Route path='/blogs/:id' element={<Blog />} />
               <Route
                 path='/blogs/new'
                 element={
@@ -94,7 +84,11 @@ const App = () => {
               <Route
                 path='/users'
                 element={
-                  user ? <Users /> : <Navigate replace to='/login?redirect=/users' />
+                  user ? (
+                    <Users />
+                  ) : (
+                    <Navigate replace to='/login?redirect=/users' />
+                  )
                 }
               />
               <Route path='/users/:id' element={<User />} />

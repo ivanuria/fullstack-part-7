@@ -7,11 +7,9 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Typography
+  Typography,
 } from '@mui/material'
-import {
-  Circle as CircleIcon
-} from '@mui/icons-material'
+import { Circle as CircleIcon } from '@mui/icons-material'
 
 const User = () => {
   const navigate = useNavigate()
@@ -40,7 +38,9 @@ const User = () => {
               <CircleIcon color='primary' />
             </ListItemIcon>
             <ListItemText>
-              <Typography component={Link} to={`/blogs/${blog.id}`}>{blog.title}</Typography>
+              <Typography component={Link} to={`/blogs/${blog.id}`}>
+                {blog.title}
+              </Typography>
             </ListItemText>
           </ListItem>
         ))}

@@ -18,7 +18,7 @@ const Header = () => {
   const navItems = [
     {
       to: '/',
-      text: 'Home'
+      text: 'Home',
     },
     {
       restricted,
@@ -27,90 +27,90 @@ const Header = () => {
         {
           restricted,
           to: '/blogs',
-          text: 'Blogs'
+          text: 'Blogs',
         },
         {
           restricted,
           to: '/blogs/new',
-          text: 'Add New Blog'
-        }
-      ]
+          text: 'Add New Blog',
+        },
+      ],
     },
     {
       restricted,
       to: '/users',
-      text: 'Users'
-    }
+      text: 'Users',
+    },
   ]
 
   return (
     <>
-    <Button
-      href='#main'
-      variant='contained'
-      color='tertiary'
-      sx={{
-        position: 'fixed',
-        top: 8,
-        left: 8,
-      ':focus-visible': {
-          zIndex: '9999999'
-        }
-      }}
-    >Skip to content</Button>
-    <AppBar position='sticky'>
-      <Container>
-        <Toolbar
-          disableGutters={true}
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <MobileMenu navItems={navItems} />
-          <Box
+      <Button
+        href='#main'
+        variant='contained'
+        color='tertiary'
+        sx={{
+          position: 'fixed',
+          top: 8,
+          left: 8,
+          ':focus-visible': {
+            zIndex: '9999999',
+          },
+        }}
+      >
+        Skip to content
+      </Button>
+      <AppBar position='sticky'>
+        <Container>
+          <Toolbar
+            disableGutters={true}
             sx={{
               display: 'flex',
-              alignItems: 'center'
+              justifyContent: 'space-between',
             }}
           >
-            <Typography
-              component='h1'
-            >
-              <Typography
-                component={Link}
-                variant='h1'
-                to='/'
-                sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  fontWeight: '700',
-                  marginInline: 0,
-                  fontSize: {
-                    xs: 22,
-                    md: 40
-                  }
-                }}
-              >
-                BlogApp
-              </Typography>
-            </Typography>
-            <MainMenu
-              navItems={navItems}
+            <MobileMenu navItems={navItems} />
+            <Box
               sx={{
-                display: {
-                  xs: 'none',
-                  md: 'flex'
-                }
+                display: 'flex',
+                alignItems: 'center',
               }}
-            />
-          </Box>
-          <Box>
-            <UserAvatar />
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            >
+              <Typography component='h1'>
+                <Typography
+                  component={Link}
+                  variant='h1'
+                  to='/'
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    fontWeight: '700',
+                    marginInline: 0,
+                    fontSize: {
+                      xs: 22,
+                      md: 40,
+                    },
+                  }}
+                >
+                  BlogApp
+                </Typography>
+              </Typography>
+              <MainMenu
+                navItems={navItems}
+                sx={{
+                  display: {
+                    xs: 'none',
+                    md: 'flex',
+                  },
+                }}
+              />
+            </Box>
+            <Box>
+              <UserAvatar />
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
     </>
   )
 }

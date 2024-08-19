@@ -1,8 +1,6 @@
-import {
-  Typography
-} from '@mui/material'
+import { Typography } from '@mui/material'
 
-const H2 = ({ children, sx={} }) => {
+const H2 = ({ children, sx = {} }) => {
   return (
     <Typography
       component='h2'
@@ -10,7 +8,7 @@ const H2 = ({ children, sx={} }) => {
       sx={{
         textAlign: 'center',
         marginBlockEnd: '1em',
-        ...sx
+        ...sx,
       }}
     >
       {children}

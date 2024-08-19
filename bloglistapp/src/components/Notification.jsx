@@ -1,10 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteNotification } from '../reducers/notifications'
 
-import {
-  Box,
-  Alert
-} from '@mui/material'
+import { Box, Alert } from '@mui/material'
 
 const Notifications = () => {
   const dispatch = useDispatch()
@@ -12,7 +9,7 @@ const Notifications = () => {
   const style = {
     position: 'fixed',
     bottom: '1rem',
-    right: '1rem'
+    right: '1rem',
   }
   console.log('Notifications', notifications)
   return (
@@ -23,7 +20,7 @@ const Notifications = () => {
         bottom: '1rem',
         right: '1rem',
         display: 'grid',
-        gap: 1
+        gap: 1,
       }}
     >
       {notifications.map(notification => (

@@ -5,12 +5,7 @@ import FormRow from '../components/FormRow'
 // Actions
 import { login, loggedInUser } from '../reducers/user'
 
-import {
-  Button,
-  FormGroup,
-  TextField,
-  Paper,
-} from '@mui/material'
+import { Button, FormGroup, TextField, Paper } from '@mui/material'
 
 import H2 from '../components/H2'
 
@@ -36,46 +31,48 @@ const Login = () => {
 
   return (
     <>
-    <H2>Login</H2>
-    <Paper
-      sx={{
-        maxWidth: 400,
-        marginInline: 'auto'
-      }}
-    >
-      <form
-        className='loginform'
-        id='loginform'
-        data-testid='loginform'
-        onSubmit={doLogin}
+      <H2>Login</H2>
+      <Paper
+        sx={{
+          maxWidth: 400,
+          marginInline: 'auto',
+        }}
       >
-        <FormGroup
-          sx={{
-            gap: 2,
-            p: '1rem'
-          }}
+        <form
+          className='loginform'
+          id='loginform'
+          data-testid='loginform'
+          onSubmit={doLogin}
         >
-          <TextField
-            label='Username'
-            id='username'
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            aria-label='type in your username'
-            data-testid='username'
-          />
-          <TextField
-            label='Password'
-            id='password'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            aria-label='type in your password'
-            type='password'
-            data-testid='password'
-          />
-          <Button type='submit' variant='contained' size='large'>Login</Button>
-        </FormGroup>
-      </form>
-    </Paper>
+          <FormGroup
+            sx={{
+              gap: 2,
+              p: '1rem',
+            }}
+          >
+            <TextField
+              label='Username'
+              id='username'
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              aria-label='type in your username'
+              data-testid='username'
+            />
+            <TextField
+              label='Password'
+              id='password'
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              aria-label='type in your password'
+              type='password'
+              data-testid='password'
+            />
+            <Button type='submit' variant='contained' size='large'>
+              Login
+            </Button>
+          </FormGroup>
+        </form>
+      </Paper>
     </>
   )
 }

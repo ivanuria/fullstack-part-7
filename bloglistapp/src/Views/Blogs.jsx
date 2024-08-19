@@ -11,20 +11,19 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
 } from '@mui/material'
-import {
-  SwapVert,
-  Add as AddIcon
-} from '@mui/icons-material'
+import { SwapVert, Add as AddIcon } from '@mui/icons-material'
 import H2 from '../components/H2'
 
 const Blog = ({ blog }) => {
   return (
-    <TableRow >
-      <TableCell><Link to={`/blogs/${blog.id}`}>{ blog.title }</Link></TableCell>
-      <TableCell>{ blog.author }</TableCell>
-      <TableCell>{ blog.likes }</TableCell>
+    <TableRow>
+      <TableCell>
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+      </TableCell>
+      <TableCell>{blog.author}</TableCell>
+      <TableCell>{blog.likes}</TableCell>
     </TableRow>
   )
 }
@@ -51,7 +50,7 @@ const Blogs = () => {
       <TableContainer
         component={Paper}
         sx={{
-          marginBlockEnd: '2.5rem'
+          marginBlockEnd: '2.5rem',
         }}
       >
         <Table>
@@ -62,20 +61,20 @@ const Blogs = () => {
               <TableCell
                 sx={{
                   display: 'flex',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-between',
                 }}
               >
                 Likes
-              <Button onClick={e => handleSortBlogs()}>
-                <SwapVert />
-              </Button>
+                <Button onClick={e => handleSortBlogs()}>
+                  <SwapVert />
+                </Button>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+            {blogs.map(blog => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -86,10 +85,10 @@ const Blogs = () => {
         sx={{
           position: 'fixed',
           bottom: '1rem',
-          right: '50%'
+          right: '50%',
         }}
       >
-        <AddIcon color='primary.contrastText'/>
+        <AddIcon color='primary.contrastText' />
       </Fab>
     </Box>
   )

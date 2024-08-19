@@ -10,17 +10,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Typography
+  Typography,
 } from '@mui/material'
 
 const User = ({ user }) => {
   return (
     <TableRow>
       <TableCell>
-        <Typography
-          component={ Link }
-          to={`/users/${user.id}`}
-        >{user.name}</Typography>
+        <Typography component={Link} to={`/users/${user.id}`}>
+          {user.name}
+        </Typography>
       </TableCell>
       <TableCell>{user.blogs.length}</TableCell>
     </TableRow>
@@ -34,19 +33,19 @@ const Users = () => {
     <>
       <H2>Users</H2>
       <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell style={{ textAlign: 'left' }}>User</TableCell>
-            <TableCell>Blogs Created</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map(user => (
-            <User key={user.id} user={user} />
-          ))}
-        </TableBody>
-      </Table>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ textAlign: 'left' }}>User</TableCell>
+              <TableCell>Blogs Created</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map(user => (
+              <User key={user.id} user={user} />
+            ))}
+          </TableBody>
+        </Table>
       </TableContainer>
     </>
   )

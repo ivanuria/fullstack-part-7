@@ -33,7 +33,7 @@ describe('blogs list api', async () => {
     user = {
       name: user.name,
       id: user.id,
-      username: user.username
+      username: user.username,
     }
     userId = (await getAllUsers())[0].id
     let login = await api.post('/api/login').send({
@@ -55,7 +55,7 @@ describe('blogs list api', async () => {
     await helper.clearBlogs()
     await helper.saveBlogs(
       helper.initialBlogs.map(blog => {
-        return { ...blog, user:userId }
+        return { ...blog, user: userId }
       }),
     )
   })
@@ -106,7 +106,7 @@ describe('blogs list api', async () => {
         ...newPost,
         id: response.body.id,
         comments: [],
-        user
+        user,
       })
 
       const savedPosts = await helper.allBlogs()
@@ -573,7 +573,9 @@ describe('blogs list api', async () => {
         ...postToUpdate,
         ...updatePost,
         user,
-        comments: [ { id: updatedPost.body.comments[0].id, content: 'hola caracola' }],
+        comments: [
+          { id: updatedPost.body.comments[0].id, content: 'hola caracola' },
+        ],
       })
 
       const currentPosts = await helper.allBlogs()

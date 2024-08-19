@@ -6,11 +6,9 @@ import {
   Drawer,
   List,
   ListItemButton,
-  Typography
+  Typography,
 } from '@mui/material'
-import {
-  Menu as MenuIcon
-} from '@mui/icons-material'
+import { Menu as MenuIcon } from '@mui/icons-material'
 
 const MenuItem = ({ navItem }) => {
   console.log(navItem)
@@ -18,18 +16,24 @@ const MenuItem = ({ navItem }) => {
     console.log(navItem.submenu)
     return (
       <>
-      {navItem.submenu.map(submenu => <MenuItem key={`${navItem}/${submenu.text}`} navItem={submenu} />)}
+        {navItem.submenu.map(submenu => (
+          <MenuItem key={`${navItem}/${submenu.text}`} navItem={submenu} />
+        ))}
       </>
     )
   }
-  return (<ListItemButton
-    sx={{
-      width: '100%'
-    }}
-    key={navItem.text}
-    component={Link}
-    to={navItem.to}
-  >{navItem.text}</ListItemButton>)
+  return (
+    <ListItemButton
+      sx={{
+        width: '100%',
+      }}
+      key={navItem.text}
+      component={Link}
+      to={navItem.to}
+    >
+      {navItem.text}
+    </ListItemButton>
+  )
 }
 
 const MobileMenu = ({ navItems }) => {
@@ -37,63 +41,60 @@ const MobileMenu = ({ navItems }) => {
 
   return (
     <>
-    <Button
-      variant='text'
-      color='inherit'
-      onClick={() => setOpen(!open)}
-      sx={{
-        minWidth: 'fit-content',
-        px: 0,
-        display: {
-          sm: 'flex',
-          md: 'none'
-        }
-      }}
-    >
-      <MenuIcon
+      <Button
+        variant='text'
+        color='inherit'
+        onClick={() => setOpen(!open)}
         sx={{
-          width: 40,
-          height: 40
+          minWidth: 'fit-content',
+          px: 0,
+          display: {
+            sm: 'flex',
+            md: 'none',
+          },
         }}
-      />
-    </Button>
-    <Drawer
-      open={open}
-      onClose={() => setOpen(false)}
-    >
-      <Box
-        sx={{
-          width: '250px'
-        }}
-        role='presentation'
-        onClick={() => setOpen(false)}>
+      >
+        <MenuIcon
+          sx={{
+            width: 40,
+            height: 40,
+          }}
+        />
+      </Button>
+      <Drawer open={open} onClose={() => setOpen(false)}>
+        <Box
+          sx={{
+            width: '250px',
+          }}
+          role='presentation'
+          onClick={() => setOpen(false)}
+        >
           <Box
             sx={{
-              p: '1rem'
+              p: '1rem',
             }}
           >
-          <Typography
-            variant='h1'
-            color= 'primary'
-            sx={{
-              fontSize: 22
-            }}
-          >BlogApp</Typography>
+            <Typography
+              variant='h1'
+              color='primary'
+              sx={{
+                fontSize: 22,
+              }}
+            >
+              BlogApp
+            </Typography>
           </Box>
           <List
             sx={{
-              width: '100%'
+              width: '100%',
             }}
           >
-          {
-            navItems.map(navItem => (
+            {navItems.map(navItem => (
               <MenuItem key={navItem.text} navItem={navItem} />
-            ))
-          }
-
+            ))}
           </List>
         </Box>
-    </Drawer>
+      </Drawer>
     </>
   )
 }

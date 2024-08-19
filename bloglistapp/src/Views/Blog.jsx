@@ -20,9 +20,7 @@ const Blog = () => {
     return null
   }
 
-  return (
-    <BlogElement blog={blog} />
-  )
+  return <BlogElement blog={blog} />
 }
 
 export default Blog

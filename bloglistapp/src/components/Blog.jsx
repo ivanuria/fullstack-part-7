@@ -5,13 +5,7 @@ import { setNotification } from '../reducers/notifications'
 import { likeBlog, removeBlog, commentBlog } from '../reducers/blogs'
 
 import FormRow from './FormRow'
-import {
-  Box,
-  Button,
-  Divider,
-  TextField,
-  Typography
-} from '@mui/material'
+import { Box, Button, Divider, TextField, Typography } from '@mui/material'
 import H2 from './H2'
 
 const Blog = ({ blog, ...props }) => {
@@ -26,7 +20,12 @@ const Blog = ({ blog, ...props }) => {
     setThinking(true)
     dispatch(likeBlog(blog))
     setLikes(likes + 1)
-    dispatch(setNotification(`Liked '${blog.title}'`, { timeout: 2, level: 'success' }))
+    dispatch(
+      setNotification(`Liked '${blog.title}'`, {
+        timeout: 2,
+        level: 'success',
+      }),
+    )
     setThinking(false)
   }
 
@@ -50,34 +49,34 @@ const Blog = ({ blog, ...props }) => {
             width: 'fit-content',
             display: 'block',
             marginInline: 'auto',
-            marginBlockEnd: '1rem'
+            marginBlockEnd: '1rem',
           }}
         >
           {blog.url}
         </Typography>
         <Box>
-          <Typography component='span'>
-            Likes: {likes}
-          </Typography>
+          <Typography component='span'>Likes: {likes}</Typography>
           <Button
             onClick={sumUpLikes}
             disabled={thinking}
             variant='outlined'
             sx={{
-              marginInlineStart: '2ch'
+              marginInlineStart: '2ch',
             }}
           >
             Like
           </Button>
         </Box>
         <Box>
-        <Typography component='span'>uploaded by <b>{blog.user.name}</b></Typography>
+          <Typography component='span'>
+            uploaded by <b>{blog.user.name}</b>
+          </Typography>
         </Box>
         {username === blog.user.username ? (
           <Button
             onClick={e => dispatch(removeBlog(blog.id))}
             sx={{
-              marginBlock: '1rem'
+              marginBlock: '1rem',
             }}
             variant='outlined'
           >
@@ -86,35 +85,38 @@ const Blog = ({ blog, ...props }) => {
         ) : null}
         <Divider
           sx={{
-            marginBlock: '1rem'
+            marginBlock: '1rem',
           }}
         />
         <Box>
-          <Typography
-            component='h3'
-            variant='h6'
-          >Comments:</Typography>
+          <Typography component='h3' variant='h6'>
+            Comments:
+          </Typography>
           <Box
             sx={{
               display: 'flex',
               marginBlockStart: '1rem',
-              gap: 2
+              gap: 2,
             }}
           >
             <TextField
               label='New Comment'
               id='comment'
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') commentHandler(e) }}
+              onChange={e => setComment(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') commentHandler(e)
+              }}
               size='small'
             />
-            <Button onClick={commentHandler} variant='contained' size='small'>Comment</Button>
+            <Button onClick={commentHandler} variant='contained' size='small'>
+              Comment
+            </Button>
           </Box>
           <ul>
-            {blog.comments.map(comment =>
-              <li key={comment.id}>{ comment.content }</li>
-            )}
+            {blog.comments.map(comment => (
+              <li key={comment.id}>{comment.content}</li>
+            ))}
           </ul>
         </Box>
       </Box>
