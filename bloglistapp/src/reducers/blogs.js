@@ -46,6 +46,7 @@ export const likeBlog = blog => {
 
 export const removeBlog = id => {
   return async dispatch => {
+    const user = loggedInUser()
     try {
       await deleteBlog(id)
     } catch (error) {

@@ -3,16 +3,19 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notifications'
 import { likeBlog, removeBlog, commentBlog } from '../reducers/blogs'
-
-import FormRow from './FormRow'
+import { useNavigate } from 'react-router-dom'
+import Dialog from './Dialog'
 import { Box, Button, Divider, TextField, Typography } from '@mui/material'
 import H2 from './H2'
 
-const Blog = ({ blog, ...props }) => {
+const Blog = ({ blog }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [likes, setLikes] = useState(blog.likes)
   const [comment, setComment] = useState('')
   const [thinking, setThinking] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
   const user = useSelector(state => state.user)
   const username = user.username
 
@@ -34,6 +37,14 @@ const Blog = ({ blog, ...props }) => {
     setComment('')
   }
 
+  const onRemove = () => {
+    setDeleteOpen(true)
+  }
+
+  const handleRemove = () => {
+    dispatch(removeBlog(blog.id))
+    navigate('/blogs')
+  }
   return (
     <>
       <H2>
@@ -73,8 +84,9 @@ const Blog = ({ blog, ...props }) => {
           </Typography>
         </Box>
         {username === blog.user.username ? (
+          <>
           <Button
-            onClick={e => dispatch(removeBlog(blog.id))}
+            onClick={onRemove}
             sx={{
               marginBlock: '1rem',
             }}
@@ -82,6 +94,14 @@ const Blog = ({ blog, ...props }) => {
           >
             Delete Blog
           </Button>
+          <Dialog
+            title={`Do you really want to delete '${blog.title}'`}
+            text='This operation cannot be undone. Do you really want to proceed?'
+            open={deleteOpen}
+            setOpen={setDeleteOpen}
+            onAccept={handleRemove}
+          />
+          </>
         ) : null}
         <Divider
           sx={{
