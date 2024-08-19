@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useMatch, useLocation, useNavigate } from 'react-router-dom'
+import { useMatch, useLocation, useNavigate, Link } from 'react-router-dom'
 import { loggedInUser } from '../reducers/user'
 import H2 from '../components/H2'
 import {
@@ -40,7 +40,7 @@ const User = () => {
               <CircleIcon color='primary' />
             </ListItemIcon>
             <ListItemText>
-              <Typography component='a' href={`/blogs/${blog.id}`}>{blog.title}</Typography>
+              <Typography component={Link} to={`/blogs/${blog.id}`}>{blog.title}</Typography>
             </ListItemText>
           </ListItem>
         ))}

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import H2 from '../components/H2'
 // MUI
 import {
@@ -17,8 +18,8 @@ const User = ({ user }) => {
     <TableRow>
       <TableCell>
         <Typography
-          component='a'
-          href={`/users/${user.id}`}
+          component={ Link }
+          to={`/users/${user.id}`}
         >{user.name}</Typography>
       </TableCell>
       <TableCell>{user.blogs.length}</TableCell>

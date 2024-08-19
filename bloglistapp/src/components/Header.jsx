@@ -15,25 +15,30 @@ import UserAvatar from './UserAvatar.jsx'
 import MobileMenu from './MobileMenu.jsx'
 
 const Header = () => {
+  const restricted = true
   const navItems = [
     {
       to: '/',
       text: 'Home'
     },
     {
+      restricted,
       text: 'Blogs',
       submenu: [
         {
+          restricted,
           to: '/blogs',
           text: 'Blogs'
         },
         {
+          restricted,
           to: '/blogs/new',
           text: 'Add New Blog'
         }
       ]
     },
     {
+      restricted,
       to: '/users',
       text: 'Users'
     }

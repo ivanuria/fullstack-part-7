@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Blogs from './Views/Blogs.jsx'
 import Blog from './Views/Blog.jsx'
 import Header from './components/Header'
+import Home from './Views/Home.jsx'
 import Login from './Views/Login.jsx'
 import NewBlog from './Views/NewBlog.jsx'
 import Notifications from './components/Notification.jsx'
@@ -23,6 +24,7 @@ import {
   Container,
   Paper
 } from '@mui/material'
+
 
 const initialNotifications = [
   {
@@ -66,13 +68,7 @@ const App = () => {
             <Routes>
               <Route
                 path='/'
-                element={
-                  user ? (
-                    <Navigate replace to='/blogs' />
-                  ) : (
-                    <Navigate replace to='/login?redirect=/' />
-                  )
-                }
+                element={<Home />}
               />
               <Route
                 path='/blogs'

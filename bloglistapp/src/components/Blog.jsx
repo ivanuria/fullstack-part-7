@@ -5,6 +5,14 @@ import { setNotification } from '../reducers/notifications'
 import { likeBlog, removeBlog, commentBlog } from '../reducers/blogs'
 
 import FormRow from './FormRow'
+import {
+  Box,
+  Button,
+  Divider,
+  TextField,
+  Typography
+} from '@mui/material'
+import H2 from './H2'
 
 const Blog = ({ blog, ...props }) => {
   const dispatch = useDispatch()
@@ -18,7 +26,7 @@ const Blog = ({ blog, ...props }) => {
     setThinking(true)
     dispatch(likeBlog(blog))
     setLikes(likes + 1)
-    dispatch(setNotification(`Liked '${blog.title}'`, { timeout: 2 }))
+    dispatch(setNotification(`Liked '${blog.title}'`, { timeout: 2, level: 'success' }))
     setThinking(false)
   }
 
@@ -28,59 +36,89 @@ const Blog = ({ blog, ...props }) => {
   }
 
   return (
-    <div
-      data-testid='blog-item'
-      {...props}
-    >
-      <h1 className='blog__title-author'>
-        <b>{blog.title}</b> {blog.author}
-      </h1>
-        <br />
-        <a
-          className='blog__url'
+    <>
+      <H2>
+        <b>{blog.title}</b> by {blog.author}
+      </H2>
+      <Box>
+        <Typography
+          component='a'
           href={blog.url}
           target='_blank'
           rel='noreferrer'
+          sx={{
+            width: 'fit-content',
+            display: 'block',
+            marginInline: 'auto',
+            marginBlockEnd: '1rem'
+          }}
         >
           {blog.url}
-        </a>
-        <br />
-        <span className='blog__likes'>
-          Likes: {likes}
-        </span>
-        <button
-          className='blog__likes-button'
-          onClick={sumUpLikes}
-          disabled={thinking}
-        >
-          Like
-        </button>
-        <br />
-        {blog.user.name}
-        <br />
+        </Typography>
+        <Box>
+          <Typography component='span'>
+            Likes: {likes}
+          </Typography>
+          <Button
+            onClick={sumUpLikes}
+            disabled={thinking}
+            variant='outlined'
+            sx={{
+              marginInlineStart: '2ch'
+            }}
+          >
+            Like
+          </Button>
+        </Box>
+        <Box>
+        <Typography component='span'>uploaded by <b>{blog.user.name}</b></Typography>
+        </Box>
         {username === blog.user.username ? (
-          <button
-            className='blog__delete'
+          <Button
             onClick={e => dispatch(removeBlog(blog.id))}
-            style={{ marginBlock: '1rem' }}
+            sx={{
+              marginBlock: '1rem'
+            }}
+            variant='outlined'
           >
             Delete Blog
-          </button>
+          </Button>
         ) : null}
-        <div>
-          <h3>Comments:</h3>
-          <FormRow>
-            <label htmlFor='comment'>New Comment:</label>
-            <input id='comment' value={comment} onChange={(e) => setComment(e.target.value)} />
-            <button onClick={commentHandler}>Comment</button>
-          </FormRow>
+        <Divider
+          sx={{
+            marginBlock: '1rem'
+          }}
+        />
+        <Box>
+          <Typography
+            component='h3'
+            variant='h6'
+          >Comments:</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              marginBlockStart: '1rem',
+              gap: 2
+            }}
+          >
+            <TextField
+              label='New Comment'
+              id='comment'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') commentHandler(e) }}
+              size='small'
+            />
+            <Button onClick={commentHandler} variant='contained' size='small'>Comment</Button>
+          </Box>
           <ul>
             {blog.comments.map(comment =>
               <li key={comment.id}>{ comment.content }</li>
             )}
           </ul>
-        </div>
-    </div>
+        </Box>
+      </Box>
+    </>
   )
 }
 

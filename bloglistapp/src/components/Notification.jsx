@@ -1,7 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteNotification } from '../reducers/notifications'
 
-import { Container, Alert } from '@mui/material'
+import {
+  Box,
+  Alert
+} from '@mui/material'
 
 const Notifications = () => {
   const dispatch = useDispatch()
@@ -13,19 +16,26 @@ const Notifications = () => {
   }
   console.log('Notifications', notifications)
   return (
-    <div className='notifications' style={style}>
-      <Container>
-        {notifications.map(notification => (
-          <Alert
-            key={notification.id}
-            severity={notification.level}
-            onClose={() => dispatch(deleteNotification(notification.id))}
-          >
-            {notification.message}
-          </Alert>
-        ))}
-      </Container>
-    </div>
+    <Box
+      className='notifications'
+      sx={{
+        position: 'fixed',
+        bottom: '1rem',
+        right: '1rem',
+        display: 'grid',
+        gap: 1
+      }}
+    >
+      {notifications.map(notification => (
+        <Alert
+          key={notification.id}
+          severity={notification.level}
+          onClose={() => dispatch(deleteNotification(notification.id))}
+        >
+          {notification.message}
+        </Alert>
+      ))}
+    </Box>
   )
 }
 
