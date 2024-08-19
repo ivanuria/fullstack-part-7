@@ -1,6 +1,17 @@
 import { useSelector } from 'react-redux'
 import { useMatch, useLocation, useNavigate } from 'react-router-dom'
 import { loggedInUser } from '../reducers/user'
+import H2 from '../components/H2'
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Typography
+} from '@mui/material'
+import {
+  Circle as CircleIcon
+} from '@mui/icons-material'
 
 const User = () => {
   const navigate = useNavigate()
@@ -21,12 +32,19 @@ const User = () => {
 
   return (
     <>
-      <h2>{user.name}</h2>
-      <ul>
+      <H2>{user.name}</H2>
+      <List>
         {user.blogs.map(blog => (
-          <li key={blog.id}><a href={`/blogs/${blog.id}`}>{blog.title}</a></li>
+          <ListItem key={blog.id}>
+            <ListItemIcon>
+              <CircleIcon color='primary' />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography component='a' href={`/blogs/${blog.id}`}>{blog.title}</Typography>
+            </ListItemText>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </>
   )
 }

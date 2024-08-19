@@ -4,6 +4,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { createNewBlog } from '../reducers/blogs'
 import { setNotification } from '../reducers/notifications'
+//MUI
+import {
+  Box,
+  Button,
+  Paper,
+  FormGroup,
+  TextField
+} from '@mui/material'
+import H2 from '../components/H2'
 
 const NewBlog = ({ ...props }) => {
   const navigate = useNavigate()
@@ -16,18 +25,20 @@ const NewBlog = ({ ...props }) => {
   const addNewBlog = async event => {
     console.log('AddNewBlog')
     event.preventDefault()
-    dispatch(
-      createNewBlog({
-        title,
-        author,
-        url,
-        user,
-      }),
-    )
-    dispatch(setNotification(`'${title}' correctly added`))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    if (title && author && url) {
+      dispatch(
+        createNewBlog({
+          title,
+          author,
+          url,
+          user,
+        }),
+      )
+      dispatch(setNotification(`'${title}' correctly added`, { level: 'success' }))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    }
     navigate('/blogs')
   }
 
@@ -38,43 +49,55 @@ const NewBlog = ({ ...props }) => {
       data-testid='new-blog'
       {...props}
     >
-      <h2>Create new Blog</h2>
+      <H2>Create new Blog</H2>
+      <Paper
+        sx={{
+          p: '1rem',
+          maxWidth: 800,
+          marginInline: 'auto'
+        }}
+      >
       <form
         className='new-blog__form'
         id='new-blog'
         onSubmit={addNewBlog}
         data-testid='new-blog-form'
       >
-        <FormRow>
-          <label htmlFor='title'>Title: </label>
-          <input
+        <FormGroup
+          sx={{
+            gap: 2
+          }}
+        >
+          <TextField
+            label='Title'
             id='title'
             value={title}
             onChange={e => setTitle(e.target.value)}
             data-testid='new-blog-title'
+            variant='outlined'
+            required
           />
-        </FormRow>
-        <FormRow>
-          <label htmlFor='author'>Author: </label>
-          <input
+          <TextField
+            label='Author'
             id='author'
             value={author}
             onChange={e => setAuthor(e.target.value)}
             data-testid='new-blog-author'
+            required
           />
-        </FormRow>
-        <FormRow>
-          <label htmlFor='url'>Url: </label>
-          <input
+          <TextField
+            label='Url'
             id='url'
             value={url}
             onChange={e => setUrl(e.target.value)}
             type='url'
             data-testid='new-blog-url'
+            required
           />
-        </FormRow>
-        <input type='submit' value='Create new' />
-      </form>
+          <Button variant='contained' color='secondary' type='submit'>Create new</Button>
+          </FormGroup>
+        </form>
+      </Paper>
     </div>
   )
 }

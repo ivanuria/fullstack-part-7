@@ -1,20 +1,22 @@
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { setInitialBlogs } from '../reducers/blogs'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import {
   Box,
   Button,
+  Fab,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Typography
+  TableRow
 } from '@mui/material'
-import { SwapVert } from '@mui/icons-material'
+import {
+  SwapVert,
+  Add as AddIcon
+} from '@mui/icons-material'
 import H2 from '../components/H2'
 
 const Blog = ({ blog }) => {
@@ -28,13 +30,9 @@ const Blog = ({ blog }) => {
 }
 
 const Blogs = () => {
-  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [sorted, setSorted] = useState()
   const blogs = [...useSelector(state => state.blogs)]
-
-  useEffect(() => {
-    dispatch(setInitialBlogs())
-  }, [])
 
   const handleSortBlogs = () => {
     setSorted(sorted === 'higherFirst' ? 'lowerFirst' : 'higherFirst')
@@ -50,7 +48,12 @@ const Blogs = () => {
   return (
     <Box>
       <H2>Blogs List</H2>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          marginBlockEnd: '2.5rem'
+        }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -76,6 +79,18 @@ const Blogs = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Fab
+        color='primary'
+        aria-label='add blog'
+        onClick={() => navigate('/blogs/new')}
+        sx={{
+          position: 'fixed',
+          bottom: '1rem',
+          right: '50%'
+        }}
+      >
+        <AddIcon color='primary.contrastText'/>
+      </Fab>
     </Box>
   )
 }
