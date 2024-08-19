@@ -35,6 +35,10 @@ theme = createTheme(theme, {
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        body: {
+          backgroundColor: theme.palette.secondary.light,
+          boxSizing: 'border-box'
+        },
         'main a': {
           color: theme.palette.primary.light,
           fontWeight: 'normal',

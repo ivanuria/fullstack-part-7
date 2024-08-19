@@ -1,14 +1,28 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { setInitialBlogs } from '../reducers/blogs'
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from '@mui/material'
+import { SwapVert } from '@mui/icons-material'
 
 const Blog = ({ blog }) => {
   return (
-    <tr>
-      <td><a href={`/blogs/${blog.id}`}>{ blog.title }</a></td>
-      <td>{ blog.author }</td>
-      <td>{ blog.likes }</td>
-    </tr>
+    <TableRow >
+      <TableCell><Link to={`/blogs/${blog.id}`}>{ blog.title }</Link></TableCell>
+      <TableCell>{ blog.author }</TableCell>
+      <TableCell>{ blog.likes }</TableCell>
+    </TableRow>
   )
 }
 
@@ -33,29 +47,44 @@ const Blogs = () => {
   }
 
   return (
-    <>
-      <button onClick={e => handleSortBlogs()}>
-        Sort Blogs{' '}
-        {sorted === 'higherFirst'
-          ? 'from lowest to highest'
-          : 'from highest to lowest'}
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Likes</th>
-          </tr>
-        </thead>
-        <tbody>
-        {blogs.map(blog => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-        </tbody>
-      </table>
-
-    </>
+    <Box>
+      <Typography
+        component='h2'
+        variant='h4'
+        sx={{
+          textAlign: 'center',
+          marginBlockEnd: '1em'
+        }}
+      >
+        Blogs List
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell>Author</TableCell>
+              <TableCell
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                Likes
+              <Button onClick={e => handleSortBlogs()}>
+                <SwapVert />
+              </Button>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {blogs.map(blog => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   )
 }
 

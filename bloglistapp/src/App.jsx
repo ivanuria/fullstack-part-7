@@ -20,7 +20,8 @@ import { loggedInUser } from './reducers/user.js'
 import CssBaseline from '@mui/material/CssBaseline'
 import {
   Box,
-  Container
+  Container,
+  Paper
 } from '@mui/material'
 
 const initialNotifications = [
@@ -55,46 +56,54 @@ const App = () => {
         component='main'
       >
         <Container>
-          <Routes>
-            <Route
-              path='/'
-              element={
-                user ? (
-                  <Navigate replace to='/blogs' />
-                ) : (
-                  <Navigate replace to='/login?redirect=/' />
-                )
-              }
-            />
-            <Route
-              path='/blogs'
-              element={
-                user ? <Blogs /> : <Navigate replace to='/login?redirect=/blogs' />
-              }
-            />
-            <Route
-              path='/blogs/:id'
-              element={<Blog />}
-            />
-            <Route
-              path='/blogs/new'
-              element={
-                user ? (
-                  <NewBlog />
-                ) : (
-                  <Navigate replace to='/login?redirect=/blogs/new' />
-                )
-              }
-            />
-            <Route
-              path='/users'
-              element={
-                user ? <Users /> : <Navigate replace to='/login?redirect=/users' />
-              }
-            />
-            <Route path='/users/:id' element={<User />} />
-            <Route path='/login' element={<Login />} />
-          </Routes>
+            <Paper
+              elevation={6}
+              sx={{
+                my: '1rem',
+                p: '2rem 1rem'
+              }}
+            >
+            <Routes>
+              <Route
+                path='/'
+                element={
+                  user ? (
+                    <Navigate replace to='/blogs' />
+                  ) : (
+                    <Navigate replace to='/login?redirect=/' />
+                  )
+                }
+              />
+              <Route
+                path='/blogs'
+                element={
+                  user ? <Blogs /> : <Navigate replace to='/login?redirect=/blogs' />
+                }
+              />
+              <Route
+                path='/blogs/:id'
+                element={<Blog />}
+              />
+              <Route
+                path='/blogs/new'
+                element={
+                  user ? (
+                    <NewBlog />
+                  ) : (
+                    <Navigate replace to='/login?redirect=/blogs/new' />
+                  )
+                }
+              />
+              <Route
+                path='/users'
+                element={
+                  user ? <Users /> : <Navigate replace to='/login?redirect=/users' />
+                }
+              />
+              <Route path='/users/:id' element={<User />} />
+              <Route path='/login' element={<Login />} />
+            </Routes>
+          </Paper>
         </Container>
       </Box>
     </>
