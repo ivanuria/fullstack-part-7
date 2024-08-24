@@ -11,7 +11,10 @@ blogsRoutes.get('/', async (request, response) => {
       username: 1,
       name: 1,
     })
-    .populate('comments')
+    .populate('comments', {
+      content: 1,
+      id: 1
+    })
 
   response.json(blogs)
 })
@@ -37,7 +40,10 @@ blogsRoutes.post('/', middleware.restricted, async (request, response) => {
       username: 1,
       name: 1,
     })
-    .populate('comments')
+    .populate('comments', {
+      content: 1,
+      id: 1
+    })
 
   response.status(201).json(finalBlog)
 })
@@ -48,7 +54,11 @@ blogsRoutes.get('/:id', async (request, response) => {
       username: 1,
       name: 1,
     })
-    .populate('comments')
+    .populate('comments', {
+      content: 1,
+      id: 1
+    })
+
   if (!blogPost) {
     return response.status(404).json({
       error: {
@@ -89,7 +99,10 @@ blogsRoutes.put('/:id', async (request, response) => {
       username: 1,
       name: 1,
     })
-    .populate('comments')
+    .populate('comments', {
+      content: 1,
+      id: 1
+    })
 
   response.status(200).json(newBlog)
 })
@@ -114,7 +127,10 @@ blogsRoutes.post('/:id/comments', async (request, response) => {
       username: 1,
       name: 1,
     })
-    .populate('comments')
+    .populate('comments', {
+      content: 1,
+      id: 1
+    })
 
   response.status(200).json(newBlog)
 })

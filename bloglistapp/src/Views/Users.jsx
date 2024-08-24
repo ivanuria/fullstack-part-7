@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 import H2 from '../components/H2'
 import { setInitialUsers } from '../reducers/users'
 // MUI
@@ -30,7 +31,10 @@ const User = ({ user }) => {
 const Users = () => {
   const users = useSelector(state => state.users)
   const dispatch = useDispatch()
-  dispatch(setInitialUsers())
+  useEffect(() => {
+    dispatch(setInitialUsers())
+  }, [])
+
   return (
     <>
       <H2>Users</H2>

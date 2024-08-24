@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useMatch, useLocation, useNavigate, Link } from 'react-router-dom'
 import { loggedInUser } from '../reducers/user'
 import { setInitialUsers } from '../reducers/users'
+import { useEffect } from 'react'
 import H2 from '../components/H2'
 import {
   List,
@@ -20,9 +21,10 @@ const User = () => {
   const match = useMatch(`${root}:id`)
   const id = match.params.id
   const user = useSelector(state => state.users).find(user => user.id === id)
-
   const dispatch = useDispatch()
-  dispatch(setInitialUsers())
+  useEffect(() => {
+    dispatch(setInitialUsers())
+  }, [])
 
   if (!user) {
     return null
